@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {View, StyleSheet} from 'react-native'
-import Button from '../button'
 import Input from './input'
 import {colors} from '../styles'
 import Spacer from '../Spacer'
+import Button from '../button'
 
 const AuthForm = ({isFormRegister, onSubmit, submitButtonText}) => {
   const [email, setEmail] = useState('')
@@ -56,17 +56,12 @@ const AuthForm = ({isFormRegister, onSubmit, submitButtonText}) => {
       </>
     )
   }
+
   return (
     <View style={styles.wrapperStyle}>
       {isFormRegister ? _renderFormRegister() : _renderFormLogin()}
       <Spacer />
-      <Button
-        text={submitButtonText}
-        textStyle={styles.textButtonWithBackground}
-        style={{backgroundColor: colors.primary}}
-        backgroundColor={colors.primary}
-        onSubmit={onSubmit}
-      />
+      <Button text={submitButtonText} />
     </View>
   )
 }
@@ -78,11 +73,6 @@ const styles = StyleSheet.create({
   borderButtonStyle: {
     borderWidth: 1,
     borderColor: colors.primary
-  },
-  textButtonWithBackground: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '500'
   },
   textButtonWithNoneBorderStyle: {
     color: colors.primary,

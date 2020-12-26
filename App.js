@@ -16,6 +16,9 @@ import SearchScreen from './src/screen/SearchScreen'
 //Navigator
 import {setNavigator} from './src/navigationRef'
 
+//Provider
+import {Provider as AuthProvider} from './src/context/AuthContext'
+
 const switchNavigator = createSwitchNavigator({
   loginFLow: createStackNavigator(
     {
@@ -48,5 +51,9 @@ const switchNavigator = createSwitchNavigator({
 const App = createAppContainer(switchNavigator)
 
 export default () => {
-  return <App ref={(navigator) => setNavigator(navigator)} />
+  return (
+    <AuthProvider>
+      <App ref={(navigator) => setNavigator(navigator)} />
+    </AuthProvider>
+  )
 }

@@ -1,25 +1,31 @@
 import React from 'react'
+import {ScrollView} from 'react-native'
 import {View, StyleSheet} from 'react-native'
 import AuthForm from '../component/form/AuthForm'
 import IconText from '../component/IconText'
+import KeyboardIntelligent from '../component/KeyboardIntelligent'
 import NavLink from '../component/NavLink'
-import SafeViewArea from '../component/SafeViewArea'
+import SafeView from '../component/SafeViewArea'
 import Spacer from '../component/Spacer'
 
 const SigninScreen = () => {
   return (
-    <SafeViewArea>
-      <View style={styles.wrapperStyle}>
-        <IconText text='Sign in for PluralRez' />
-        <Spacer>
-          <AuthForm submitButtonText='Sign in' />
-          <NavLink
-            text='Dont have an account? Sign up instead'
-            routeName='Signup'
-          />
-        </Spacer>
-      </View>
-    </SafeViewArea>
+    <SafeView>
+      <KeyboardIntelligent>
+        <ScrollView>
+          <View style={styles.wrapperStyle}>
+            <IconText text='Sign in for PluralRez' />
+            <Spacer>
+              <AuthForm submitButtonText='Sign in' />
+              <NavLink
+                text='Dont have an account? Sign up instead'
+                routeName='Signup'
+              />
+            </Spacer>
+          </View>
+        </ScrollView>
+      </KeyboardIntelligent>
+    </SafeView>
   )
 }
 

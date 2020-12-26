@@ -6,13 +6,16 @@ import Spacer from '../component/Spacer'
 import SafeAreaView from '../component/SafeViewArea'
 import IconText from '../component/IconText'
 const InitialScreen = ({navigation}) => {
+  // if (Platform.OS === 'android') ToastAndroid.show('hihi', ToastAndroid.SHORT)
+  // else {
+  //   Alert.alert('Đăng nhập thành công')
+  // }
   return (
     <SafeAreaView>
       <View style={styles.wrapperStyle}>
         <IconText text='PluralRez' />
         <Button
           text='Sign in'
-          textStyle={styles.textButtonWithBackground}
           onSubmit={() => {
             navigation.navigate('Signin')
           }}

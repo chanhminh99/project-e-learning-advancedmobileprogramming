@@ -2,7 +2,7 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {colors} from './styles'
 
-const Button = ({textStyle, text, type, onSubmit}) => {
+const CustomButton = ({textStyle, text, type, onSubmit}) => {
   let style = {}
   if (type === 'outline') {
     style.backgroundColor = 'none'
@@ -19,7 +19,7 @@ const Button = ({textStyle, text, type, onSubmit}) => {
       style={{...styles.buttonStyles, ...style}}
       onPress={onSubmit}>
       <View>
-        <Text style={textStyle}>{text}</Text>
+        <Text style={{...styles.text, ...textStyle}}>{text}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -32,7 +32,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.primary
+  },
+  text: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '500'
   }
 })
 
-export default Button
+export default CustomButton
