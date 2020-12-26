@@ -1,11 +1,23 @@
 import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import {colors} from './styles'
 
-const Button = ({textStyle, text, style, onPress}) => {
+const Button = ({textStyle, text, type, onSubmit}) => {
+  let style = {}
+  if (type === 'outline') {
+    style.backgroundColor = 'none'
+    style.borderWidth = 1
+    style.borderColor = colors.primary
+  }
+
+  if (type === 'clear') {
+    style.backgroundColor = 'none'
+  }
+
   return (
     <TouchableOpacity
       style={{...styles.buttonStyles, ...style}}
-      onPress={onPress}>
+      onPress={onSubmit}>
       <View>
         <Text style={textStyle}>{text}</Text>
       </View>
@@ -19,7 +31,7 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 10
+    backgroundColor: colors.primary
   }
 })
 

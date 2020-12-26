@@ -1,19 +1,19 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {View, Text, StyleSheet, TextInput} from 'react-native'
 import {colors} from '../styles/'
 
-const Input = ({label}) => {
-  const [term, setTerm] = useState('')
+const Input = ({label, isPassword, value, onChangeText}) => {
   return (
     <View style={styles.wrapperStyle}>
       <Text style={styles.labelInput}>{label}</Text>
       <View style={styles.wrapperInput}>
         <TextInput
+          secureTextEntry={isPassword ? true : false}
           autoCapitalize='none'
-          autoCompleteType='off'
+          autoCorrect={false}
           style={styles.textInputStyle}
-          value={term}
-          onChangeText={(newTerm) => setTerm(newTerm)}
+          value={value}
+          onChangeText={(newValue) => onChangeText(newValue)}
         />
       </View>
     </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     borderWidth: 1,
     borderRadius: 5,
-    paddingVertical: 5
+    padding: 5
   }
 })
 
