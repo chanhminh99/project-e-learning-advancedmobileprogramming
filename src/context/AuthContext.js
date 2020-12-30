@@ -12,10 +12,11 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'add_error':
-      return {...state, errorMessage: action.payload}
-    case 'clear_error_message':
-      return {...state, errorMessage: ''}
+      return {...state, message: '', errorMessage: action.payload}
+    case 'clear_message':
+      return {...state, message: '', errorMessage: ''}
     case 'signup':
+      return {...state, message: action.payload, errorMessage: ''}
     case 'signin':
       return {errorMessage: '', token: action.payload}
     case 'signout':
@@ -25,30 +26,33 @@ const authReducer = (state, action) => {
   }
 }
 
-const clearErrormessage = (dispatch) => () => {
-  dispatch({type: 'clear_error_message'})
+const clearMessage = (dispatch) => () => {
+  dispatch({type: 'clear_message'})
 }
 
 const signup = (dispatch) => async ({username, email, password, phone}) => {
   try {
-    const response = await elearningApi.post('/user/signup', {
+    const response = await elearningApi.post('/user/register', {
       username,
       email,
       password,
       phone
     })
     console.log(response.data)
-    // await AsyncStorage.setItem('token', response.data.token)
-    // dispatch({type: 'signup', payload: response.data.token})
-
-    // navigate('TrackList')
+    if (response.data.message === 'OK') {
+      dispatch({type: 'signup', payload: 'Đăng kí thành công'})
+    } else {
+      dispatch({
+        type: 'add_error',
+        payload: 'Có lỗi khi đăng ký'
+      })
+    }
   } catch (err) {
     console.log(err.response.data)
     dispatch({
       type: 'add_error',
-      payload: 'Something went wrong with sign up'
+      payload: err.response.data.message
     })
-    //   console.log(err.response.data)
   }
 }
 
@@ -78,7 +82,6 @@ const signin = (dispatch) => async ({email, password}) => {
 }
 
 const signout = (dispatch) => async () => {
-  //Handle signout
   await AsyncStorage.removeItem('token')
   dispatch({type: 'signout'})
 
@@ -91,7 +94,7 @@ export const {Context, Provider} = createDataContext(
     signup,
     signin,
     signout,
-    clearErrormessage,
+    clearMessage,
     tryLocalSignin
   },
   initialState

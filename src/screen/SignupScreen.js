@@ -1,34 +1,39 @@
 import React, {useContext} from 'react'
 import {View, StyleSheet, ScrollView} from 'react-native'
+import {NavigationEvents} from 'react-navigation'
 import AuthForm from '../component/form/AuthForm'
-import IconText from '../component/IconText'
+import TextHeader from '../component/TextHeader'
 import NavLink from '../component/NavLink'
-import SafeView from '../component/SafeViewArea'
+import SafeView from '../component/SafeView'
 import Spacer from '../component/Spacer'
 import KeyboardIntelligent from '../component/KeyboardIntelligent'
 
 import {Context as AuthContext} from '../context/AuthContext'
+import {colors} from '../component/styles'
 
-const mockData = {
-  username: 'chanhminh99',
-  email: 'chungminhchanh1999@gmail.com',
-  phone: '09412214444',
-  password: 'password'
-}
 const SignupScreen = () => {
-  const {state, signup} = useContext(AuthContext)
+  const {state, signup, clearMessage} = useContext(AuthContext)
   console.log(state)
   return (
     <SafeView>
       <KeyboardIntelligent>
         <ScrollView>
           <View style={styles.wrapperStyle}>
-            <IconText text='Sign up for PluralRez' />
+            <NavigationEvents
+              onWillFocus={() => {
+                clearMessage()
+              }}
+            />
+            <TextHeader text='Sign up for PluralRez' />
             <Spacer>
               <AuthForm
                 isFormRegister
                 submitButtonText='Sign in'
-                onSubmit={(test) => console.log(test)}
+                onSubmit={({username, email, password, phone}) =>
+                  signup({username, email, password, phone})
+                }
+                errorMessage={state.errorMessage}
+                message={state.message}
               />
               <NavLink
                 text='Already have an account? Sign in'

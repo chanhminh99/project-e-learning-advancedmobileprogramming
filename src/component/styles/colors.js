@@ -20,5 +20,6 @@ export default {
   primary: '#0084BD',
   backgroundInput: '#1E2429',
   labelInput: 'rgba(138, 153, 168, 1)',
-  bgDark: '#0D0F12'
+  bgDark: '#0D0F12',
+  textHeader: 'rgba(138, 153, 168, 1)'
 }

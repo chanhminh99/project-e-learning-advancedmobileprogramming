@@ -2,10 +2,10 @@ import React from 'react'
 import {ScrollView} from 'react-native'
 import {View, StyleSheet} from 'react-native'
 import AuthForm from '../component/form/AuthForm'
-import IconText from '../component/IconText'
+import TextHeader from '../component/TextHeader'
 import KeyboardIntelligent from '../component/KeyboardIntelligent'
 import NavLink from '../component/NavLink'
-import SafeView from '../component/SafeViewArea'
+import SafeView from '../component/SafeView'
 import Spacer from '../component/Spacer'
 
 const SigninScreen = () => {
@@ -14,7 +14,7 @@ const SigninScreen = () => {
       <KeyboardIntelligent>
         <ScrollView>
           <View style={styles.wrapperStyle}>
-            <IconText text='Sign in for PluralRez' />
+            <TextHeader text='Sign in for PluralRez' />
             <Spacer>
               <AuthForm submitButtonText='Sign in' />
               <NavLink

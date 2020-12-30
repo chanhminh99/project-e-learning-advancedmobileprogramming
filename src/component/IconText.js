@@ -25,7 +25,7 @@ const IconText = ({text}) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: 15
+    marginTop: 30
   },
   textStyle: {
     color: 'rgba(138, 153, 168, 1)',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 5,
     textAlign: 'center',
-    marginBottom: 40
+    marginBottom: 20
   },
   iconStyle: {
     width: 60,

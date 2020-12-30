@@ -1,15 +1,15 @@
 import React from 'react'
-import {SafeAreaView} from 'react-navigation'
+import {SafeAreaView as SafeView} from 'react-navigation'
 import {StatusBar} from 'react-native'
 import {colors} from './styles'
 
-const SafeView = ({children}) => {
+const SafeViewCustom = ({children}) => {
   return (
-    <SafeAreaView style={{flex: 1}} forceInset={{top: 'always'}}>
+    <SafeView style={{flex: 1}} forceInset={{top: 'always'}}>
       <StatusBar barStyle='light-content' backgroundColor={colors.bgDark} />
       {children}
-    </SafeAreaView>
+    </SafeView>
   )
 }
 
-export default SafeView
+export default SafeViewCustom

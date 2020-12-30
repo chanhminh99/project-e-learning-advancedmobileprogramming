@@ -3,10 +3,18 @@ import {View, StyleSheet} from 'react-native'
 import Input from './input'
 import {colors} from '../styles'
 import Spacer from '../Spacer'
-import Button from '../button'
+import {Button, Text} from 'react-native-elements'
 
-const AuthForm = ({isFormRegister, onSubmit, submitButtonText}) => {
-  const [email, setEmail] = useState('')
+import {NavigationEvents} from 'react-navigation'
+
+const AuthForm = ({
+  isFormRegister,
+  onSubmit,
+  submitButtonText,
+  message,
+  errorMessage
+}) => {
+  const [email, setEmail] = useState('chanhchung9@gmail.com')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [phone, setPhone] = useState('')
@@ -59,9 +67,29 @@ const AuthForm = ({isFormRegister, onSubmit, submitButtonText}) => {
 
   return (
     <View style={styles.wrapperStyle}>
+      <NavigationEvents
+        onWillFocus={() => {
+          setEmail('')
+          setUsername('')
+          setPassword('')
+          setPhone('')
+        }}
+      />
       {isFormRegister ? _renderFormRegister() : _renderFormLogin()}
+      {errorMessage ? (
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      ) : message ? (
+        <Text style={styles.successMessage}>{message}</Text>
+      ) : null}
       <Spacer />
-      <Button text={submitButtonText} />
+      <Button
+        title={submitButtonText}
+        onPress={() =>
+          isFormRegister
+            ? onSubmit({username, email, password, phone})
+            : onSubmit({email, password})
+        }
+      />
     </View>
   )
 }
@@ -69,6 +97,16 @@ const AuthForm = ({isFormRegister, onSubmit, submitButtonText}) => {
 const styles = StyleSheet.create({
   wrapperStyle: {
     marginTop: 10
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: colors.customRed,
+    marginLeft: 15
+  },
+  successMessage: {
+    fontSize: 16,
+    color: colors.customGreen,
+    marginLeft: 15
   },
   borderButtonStyle: {
     borderWidth: 1,
