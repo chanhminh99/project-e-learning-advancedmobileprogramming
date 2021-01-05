@@ -8,42 +8,54 @@ import SafeView from '../component/SafeView'
 import Spacer from '../component/Spacer'
 import KeyboardIntelligent from '../component/KeyboardIntelligent'
 
+//Context
 import {Context as AuthContext} from '../context/AuthContext'
-import {colors} from '../component/styles'
 
 const SignupScreen = () => {
-  const {state, signup, clearMessage} = useContext(AuthContext)
-  console.log(state)
+  const {state, signup, clearMessage, addErrorMessage} = useContext(AuthContext)
+
+  const _onSubmitSignupForm = ({
+    username,
+    email,
+    password,
+    confirmPassword,
+    phone
+  }) => {
+    if (!username || !email || !password || !confirmPassword || !phone) {
+      addErrorMessage('Please input valid your info')
+    } else if (confirmPassword !== password) {
+      addErrorMessage('The confirm password is not matching with the password')
+    } else {
+      signup({username, email, password, phone})
+    }
+  }
   return (
-    <SafeView>
-      <KeyboardIntelligent>
-        <ScrollView>
-          <View style={styles.wrapperStyle}>
-            <NavigationEvents
-              onWillFocus={() => {
-                clearMessage()
-              }}
+    <KeyboardIntelligent>
+      <ScrollView>
+        <View style={styles.wrapperStyle}>
+          <NavigationEvents
+            onWillFocus={() => {
+              clearMessage()
+            }}
+          />
+          <TextHeader text='Sign up for PluralRez' />
+          <Spacer>
+            <AuthForm
+              isSignupForm
+              submitButtonText='Sign in'
+              onSubmit={_onSubmitSignupForm}
+              errorMessage={state.errorMessage}
+              message={state.message}
             />
-            <TextHeader text='Sign up for PluralRez' />
-            <Spacer>
-              <AuthForm
-                isFormRegister
-                submitButtonText='Sign in'
-                onSubmit={({username, email, password, phone}) =>
-                  signup({username, email, password, phone})
-                }
-                errorMessage={state.errorMessage}
-                message={state.message}
-              />
-              <NavLink
-                text='Already have an account? Sign in'
-                routeName='Signin'
-              />
-            </Spacer>
-          </View>
-        </ScrollView>
-      </KeyboardIntelligent>
-    </SafeView>
+            <NavLink
+              text='Already have an account? '
+              textRouteName='Sign in'
+              routeName='Signin'
+            />
+          </Spacer>
+        </View>
+      </ScrollView>
+    </KeyboardIntelligent>
   )
 }
 

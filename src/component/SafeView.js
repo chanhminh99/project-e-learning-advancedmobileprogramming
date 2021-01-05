@@ -5,7 +5,9 @@ import {colors} from './styles'
 
 const SafeViewCustom = ({children}) => {
   return (
-    <SafeView style={{flex: 1}} forceInset={{top: 'always'}}>
+    <SafeView
+      style={{flex: 1, backgroundColor: colors.bgDark}}
+      forceInset={{top: 'always'}}>
       <StatusBar barStyle='light-content' backgroundColor={colors.bgDark} />
       {children}
     </SafeView>

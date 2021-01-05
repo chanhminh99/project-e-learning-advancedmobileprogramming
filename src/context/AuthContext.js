@@ -18,12 +18,16 @@ const authReducer = (state, action) => {
     case 'signup':
       return {...state, message: action.payload, errorMessage: ''}
     case 'signin':
-      return {errorMessage: '', token: action.payload}
+      return {message: '', errorMessage: '', token: action.payload}
     case 'signout':
       return initialState
     default:
       return state
   }
+}
+
+const addErrorMessage = (dispatch) => (error) => {
+  dispatch({type: 'add_error', payload: error})
 }
 
 const clearMessage = (dispatch) => () => {
@@ -38,17 +42,31 @@ const signup = (dispatch) => async ({username, email, password, phone}) => {
       password,
       phone
     })
-    console.log(response.data)
     if (response.data.message === 'OK') {
-      dispatch({type: 'signup', payload: 'Đăng kí thành công'})
+      try {
+        await elearningApi.post('/user/send-activate-email', {
+          email
+        })
+
+        dispatch({
+          type: 'signup',
+          payload:
+            'Sign up successfully. Please go to email and active your account'
+        })
+      } catch (e) {
+        console.log(e.message)
+        dispatch({
+          type: 'add_error',
+          payload: 'Something went wrong with sign up'
+        })
+      }
     } else {
       dispatch({
         type: 'add_error',
-        payload: 'Có lỗi khi đăng ký'
+        payload: 'Something went wrong with sign up'
       })
     }
   } catch (err) {
-    console.log(err.response.data)
     dispatch({
       type: 'add_error',
       payload: err.response.data.message
@@ -60,23 +78,23 @@ const tryLocalSignin = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token')
   if (token) {
     dispatch({type: 'signin', payload: token})
-    navigate('Home')
+    navigate('mainFlow')
   } else {
-    navigate('Signup')
+    navigate('loginFLow')
   }
 }
 
 const signin = (dispatch) => async ({email, password}) => {
   try {
-    const response = await elearningApi.post('/signin', {email, password})
+    const response = await elearningApi.post('/user/login', {email, password})
     await AsyncStorage.setItem('token', response.data.token)
     dispatch({type: 'signin', payload: response.data.token})
-
-    navigate('Home')
-  } catch (error) {
+    console.log(response.data)
+    navigate('mainFlow')
+  } catch (err) {
     dispatch({
       type: 'add_error',
-      payload: 'Something went wrong with sign in'
+      payload: err.response.data.message
     })
   }
 }
@@ -94,6 +112,7 @@ export const {Context, Provider} = createDataContext(
     signup,
     signin,
     signout,
+    addErrorMessage,
     clearMessage,
     tryLocalSignin
   },

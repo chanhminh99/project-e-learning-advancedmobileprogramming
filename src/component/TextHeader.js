@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, StyleSheet, Text} from 'react-native'
-import {colors} from '../component/styles'
+import {colors, font, spacing} from '../component/styles'
 const TextHeader = ({text}) => {
   return (
     <View style={styles.wrapper}>
@@ -11,16 +11,16 @@ const TextHeader = ({text}) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: 100
+    marginTop: spacing.gutterSize * 5
   },
   textStyle: {
     color: colors.textHeader,
-    fontSize: 22,
+    fontSize: font.size.largest,
     textTransform: 'uppercase',
     fontWeight: '600',
-    letterSpacing: 5,
+    letterSpacing: spacing.gutterSize / 2,
     textAlign: 'center',
-    marginBottom: 20
+    marginBottom: spacing.doubleGutterSize
   }
 })
 

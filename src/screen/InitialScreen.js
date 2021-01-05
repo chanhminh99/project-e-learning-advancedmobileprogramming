@@ -12,26 +12,24 @@ const InitialScreen = ({navigation}) => {
   //   Alert.alert('Đăng nhập thành công')
   // }
   return (
-    <SafeAreaView>
-      <View style={styles.wrapperStyle}>
-        <IconText text='PluralRez' />
-        <Button
-          text='Sign in'
-          onSubmit={() => {
-            navigation.navigate('Signin')
-          }}
-        />
-        <Spacer />
-        <Button
-          text='Subscribe to Pluralrez'
-          textStyle={styles.textButtonWithBorder}
-          type='outline'
-          onSubmit={() => {
-            navigation.navigate('Signup')
-          }}
-        />
-      </View>
-    </SafeAreaView>
+    <View style={styles.wrapperStyle}>
+      <IconText text='PluralRez' />
+      <Button
+        text='Sign in'
+        onSubmit={() => {
+          navigation.navigate('Signin')
+        }}
+      />
+      <Spacer />
+      <Button
+        text='Subscribe to Pluralrez'
+        textStyle={styles.textButtonWithBorder}
+        type='outline'
+        onSubmit={() => {
+          navigation.navigate('Signup')
+        }}
+      />
+    </View>
   )
 }
 

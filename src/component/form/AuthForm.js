@@ -1,21 +1,22 @@
 import React, {useState} from 'react'
 import {View, StyleSheet} from 'react-native'
 import Input from './input'
-import {colors} from '../styles'
+import {colors, font, spacing} from '../styles'
 import Spacer from '../Spacer'
 import {Button, Text} from 'react-native-elements'
 
 import {NavigationEvents} from 'react-navigation'
 
 const AuthForm = ({
-  isFormRegister,
+  isSignupForm,
   onSubmit,
   submitButtonText,
   message,
   errorMessage
 }) => {
-  const [email, setEmail] = useState('chanhchung9@gmail.com')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [username, setUsername] = useState('')
   const [phone, setPhone] = useState('')
 
@@ -57,6 +58,12 @@ const AuthForm = ({
           value={password}
         />
         <Input
+          isPassword
+          label='Confirm Password:'
+          onChangeText={(newPassword) => setConfirmPassword(newPassword)}
+          value={confirmPassword}
+        />
+        <Input
           label='Phone Number:'
           onChangeText={(newPhone) => setPhone(newPhone)}
           value={phone}
@@ -75,7 +82,7 @@ const AuthForm = ({
           setPhone('')
         }}
       />
-      {isFormRegister ? _renderFormRegister() : _renderFormLogin()}
+      {isSignupForm ? _renderFormRegister() : _renderFormLogin()}
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : message ? (
@@ -85,8 +92,8 @@ const AuthForm = ({
       <Button
         title={submitButtonText}
         onPress={() =>
-          isFormRegister
-            ? onSubmit({username, email, password, phone})
+          isSignupForm
+            ? onSubmit({username, email, password, confirmPassword, phone})
             : onSubmit({email, password})
         }
       />
@@ -96,17 +103,17 @@ const AuthForm = ({
 
 const styles = StyleSheet.create({
   wrapperStyle: {
-    marginTop: 10
+    marginTop: spacing.gutterSize
   },
   errorMessage: {
-    fontSize: 16,
+    fontSize: font.size.large,
     color: colors.customRed,
-    marginLeft: 15
+    marginLeft: spacing.newGutterSize * 2
   },
   successMessage: {
-    fontSize: 16,
+    fontSize: font.size.large,
     color: colors.customGreen,
-    marginLeft: 15
+    marginLeft: spacing.newGutterSize * 2
   },
   borderButtonStyle: {
     borderWidth: 1,
@@ -114,12 +121,12 @@ const styles = StyleSheet.create({
   },
   textButtonWithNoneBorderStyle: {
     color: colors.primary,
-    fontSize: 14,
+    fontSize: font.size.medium,
     fontWeight: '300'
   },
   textButtonWithBorder: {
     color: colors.primary,
-    fontSize: 18,
+    fontSize: font.size.largest,
     fontWeight: '600'
   }
 })
@@ -129,7 +136,7 @@ AuthForm.navigationOptions = () => ({
 })
 
 AuthForm.defaultProps = {
-  isFormRegister: false
+  isSignupForm: false
 }
 
 export default AuthForm
