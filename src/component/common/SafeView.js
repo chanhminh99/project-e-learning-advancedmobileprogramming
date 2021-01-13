@@ -1,7 +1,7 @@
 import React from 'react'
 import {SafeAreaView as SafeView} from 'react-navigation'
 import {StatusBar} from 'react-native'
-import {colors} from './styles'
+import {colors} from '../styles'
 
 const SafeViewCustom = ({children}) => {
   return (

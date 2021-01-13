@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {View, StyleSheet} from 'react-native'
 import Input from './input'
 import {colors, font, spacing} from '../styles'
-import Spacer from '../Spacer'
+import Spacer from '../common/Spacer'
 import {Button, Text} from 'react-native-elements'
 
 import {NavigationEvents} from 'react-navigation'

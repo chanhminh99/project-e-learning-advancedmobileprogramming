@@ -3,7 +3,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createBottomTabNavigator} from 'react-navigation-tabs'
 import {createStackNavigator} from 'react-navigation-stack'
 import {colors} from './src/component/styles'
-import SafeAreaView from './src/component/SafeView'
+import SafeAreaView from './src/component/common/SafeView'
 //Screen
 import InitialScreen from './src/screen/InitialScreen'
 import SigninScreen from './src/screen/SigninScreen'

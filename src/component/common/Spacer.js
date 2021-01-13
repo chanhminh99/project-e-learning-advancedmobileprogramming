@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, StyleSheet} from 'react-native'
-import {spacing} from './styles'
+import {spacing} from '../styles'
 const Spacer = ({children}) => {
   return <View style={styles.spacer}>{children}</View>
 }

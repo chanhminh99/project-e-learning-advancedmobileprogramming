@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
-import {colors} from './styles'
+import {colors} from '../styles'
 
 const CustomButton = ({textStyle, text, type, onSubmit = () => {}}) => {
   let style = {}

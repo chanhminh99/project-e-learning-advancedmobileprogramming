@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet, TextInput} from 'react-native'
-import {colors} from '../styles/'
+import {colors} from '../styles'
 
 const Input = ({label, isPassword, value, onChangeText}) => {
   return (

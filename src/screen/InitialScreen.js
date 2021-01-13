@@ -1,10 +1,9 @@
 import React from 'react'
 import {View, StyleSheet} from 'react-native'
-import Button from '../component/button'
+import Button from '../component/common/button'
 import {colors} from '../component/styles'
-import Spacer from '../component/Spacer'
-import SafeAreaView from '../component/SafeView'
-import IconText from '../component/IconText'
+import Spacer from '../component/common/Spacer'
+import IconText from '../component/common/IconText'
 
 const InitialScreen = ({navigation}) => {
   // if (Platform.OS === 'android') ToastAndroid.show('hihi', ToastAndroid.SHORT)

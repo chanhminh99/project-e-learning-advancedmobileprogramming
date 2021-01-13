@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, StyleSheet, Text} from 'react-native'
-import {colors, font, spacing} from '../component/styles'
+import {colors, font, spacing} from '../styles'
 const TextHeader = ({text}) => {
   return (
     <View style={styles.wrapper}>
