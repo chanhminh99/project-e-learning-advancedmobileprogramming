@@ -19,7 +19,8 @@ import {setNavigator} from './src/navigationRef'
 //Provider
 import {Provider as AuthProvider} from './src/context/AuthContext'
 import {Provider as UserProvider} from './src/context/UserContext'
-
+import ThemeManager from './src/themes'
+import {withTheme} from 'styled-components'
 const switchNavigator = createSwitchNavigator(
   {
     ResolveAuth: ResolveAuthScreen,
@@ -45,14 +46,8 @@ const switchNavigator = createSwitchNavigator(
   {
     initialRouteName: 'ResolveAuth',
     defaultNavigationOptions: {
-      // cardStyle: {backgroundColor: colors.bgDark},
-      // headerStyle: {
-      //   backgroundColor: colors.black
-      // },
-      // headerTintColor: '#fff',
       headerTitleStyle: {
-        fontWeight: 'bold',
-        color: colors.white
+        fontWeight: 'bold'
       }
     }
   }
@@ -60,13 +55,19 @@ const switchNavigator = createSwitchNavigator(
 
 const App = createAppContainer(switchNavigator)
 
+// const AppWithTheme = withTheme(({theme}) => {
+//   return (
+//     <App screenProps={{theme}} ref={(navigator) => setNavigator(navigator)} />
+//   )
+// })
+
 export default () => {
   return (
     <UserProvider>
       <AuthProvider>
-        <SafeAreaView>
+        <ThemeManager>
           <App ref={(navigator) => setNavigator(navigator)} />
-        </SafeAreaView>
+        </ThemeManager>
       </AuthProvider>
     </UserProvider>
   )

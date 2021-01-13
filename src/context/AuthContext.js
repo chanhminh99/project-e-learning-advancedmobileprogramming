@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import jwt_decode from 'jwt-decode'
 import createDataContext from './createDataContext'
 import elearningApi from '../api/elearning'
 import {navigate} from '../navigationRef'
@@ -77,8 +78,15 @@ const signup = (dispatch) => async ({username, email, password, phone}) => {
 const tryLocalSignin = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token')
   if (token) {
-    dispatch({type: 'signin', payload: token})
-    navigate('mainFlow')
+    // Check if token is expiration
+    const decoded = jwt_decode(token)
+    if (decoded.exp < Date.now() / 1000) {
+      await AsyncStorage.removeItem('token')
+      navigate('loginFlow')
+    } else {
+      dispatch({type: 'signin', payload: token})
+      navigate('mainFlow')
+    }
   } else {
     navigate('loginFLow')
   }

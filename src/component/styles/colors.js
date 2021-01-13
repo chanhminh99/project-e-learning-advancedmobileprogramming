@@ -15,11 +15,24 @@ const baseColor = {
   customGrey: '#767885'
 }
 
-export default {
+const normalizeColors = {
   ...baseColor,
   primary: '#0084BD',
   backgroundInput: '#1E2429',
   labelInput: 'rgba(138, 153, 168, 1)',
   bgDark: '#0D0F12',
+  bgLight: '#EDEDED',
   textHeader: 'rgba(138, 153, 168, 1)'
 }
+
+Object.keys(normalizeColors).map((key) => {
+  if (
+    normalizeColors[key].includes('rgb') ||
+    normalizeColors[key].includes('rgba')
+  ) {
+    return normalizeColors[key]
+  }
+  return (normalizeColors[key] = normalizeColors[key].toUpperCase())
+})
+
+export default normalizeColors

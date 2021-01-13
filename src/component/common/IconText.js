@@ -11,7 +11,7 @@ const IconText = ({text}) => {
         maskElement={
           <Image
             style={styles.iconStyle}
-            source={require('../../assets/images/icon_pluralsight.png')}
+            source={require('../../../assets/images/icon_pluralsight.png')}
           />
         }>
         <LinearGradient

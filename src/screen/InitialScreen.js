@@ -1,7 +1,7 @@
 import React from 'react'
 import {View, StyleSheet} from 'react-native'
 import Button from '../component/common/button'
-import {colors} from '../component/styles'
+import {colors, font, spacing} from '../component/styles'
 import Spacer from '../component/common/Spacer'
 import IconText from '../component/common/IconText'
 
@@ -42,16 +42,16 @@ const styles = StyleSheet.create({
   wrapperStyle: {
     justifyContent: 'center',
     flex: 1,
-    marginHorizontal: 15
+    marginHorizontal: spacing.newGutterSize * 2
   },
   textButtonWithBackground: {
-    color: '#FFFFFF',
-    fontSize: 18,
+    color: colors.white,
+    fontSize: font.size.largest,
     fontWeight: '500'
   },
   textButtonWithBorder: {
     color: colors.primary,
-    fontSize: 18,
+    fontSize: font.size.largest,
     fontWeight: '600'
   }
 })

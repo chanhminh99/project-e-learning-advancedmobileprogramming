@@ -23,7 +23,6 @@ const userReducer = (state, action) => {
 const getUserInfo = (dispatch) => async () => {
   try {
     const response = await elearningApi.get('/user/me')
-    console.log(response.data)
     const {
       id,
       email,
