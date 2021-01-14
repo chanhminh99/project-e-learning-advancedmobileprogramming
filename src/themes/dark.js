@@ -4,7 +4,8 @@ const dark = {
   theme: {
     background: colors.bgDark,
     text: colors.white,
-    border: colors.primary
+    border: colors.primary,
+    backgroundInput: colors.backgroundInput
   }
 }
 

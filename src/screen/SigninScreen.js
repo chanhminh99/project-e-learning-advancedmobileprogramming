@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
-import {View, StyleSheet, ScrollView} from 'react-native'
+import {ScrollView} from 'react-native'
+import styled from 'styled-components'
 import {NavigationEvents} from 'react-navigation'
 import AuthForm from '../component/form/AuthForm'
 import TextHeader from '../component/common/TextHeader'
@@ -9,7 +10,13 @@ import Spacer from '../component/common/Spacer'
 //Context
 import {Context as AuthContext} from '../context/AuthContext'
 
-const SigninScreen = () => {
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  background-color: ${(props) => props.theme.background};
+`
+
+const SigninScreen = ({screenProps}) => {
   const {state, signin, clearMessage, addErrorMessage} = useContext(AuthContext)
 
   const _onSubmitSigninForm = ({email, password}) => {
@@ -20,38 +27,33 @@ const SigninScreen = () => {
     }
   }
   return (
-    <KeyboardIntelligent>
-      <ScrollView>
-        <View style={styles.wrapperStyle}>
+    <Container>
+      <KeyboardIntelligent>
+        <ScrollView>
           <NavigationEvents
             onWillFocus={() => {
               clearMessage()
             }}
           />
-          <TextHeader text='Sign in for PluralRez' />
+          <TextHeader text='Sign in to PluralRez' />
           <Spacer>
             <AuthForm
               submitButtonText='Sign in'
               onSubmit={_onSubmitSigninForm}
               errorMessage={state.errorMessage}
+              screenProps={screenProps}
             />
             <NavLink
               text='Dont have an account? '
-              textRouteName='Sign up instead'
+              textRouteName='Sign up now'
               routeName='Signup'
             />
           </Spacer>
-        </View>
-      </ScrollView>
-    </KeyboardIntelligent>
+        </ScrollView>
+      </KeyboardIntelligent>
+    </Container>
   )
 }
-
-const styles = StyleSheet.create({
-  wrapperStyle: {
-    flex: 1
-  }
-})
 
 SigninScreen.navigationOptions = () => {
   return {

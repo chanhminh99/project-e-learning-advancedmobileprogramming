@@ -34,7 +34,7 @@ const ManageThemeProvider = ({children}) => {
 
   const currentTheme = theme === 'dark' ? darkTheme.theme : lightTheme.theme
 
-  console.log({...myCustomTheme, currentTheme})
+  // console.log({...myCustomTheme, currentTheme})
 
   return (
     <ThemeContext.Provider value={{mode: theme, setMode}}>

@@ -1,17 +1,28 @@
 import React from 'react'
 import {View, Text, StyleSheet, TextInput} from 'react-native'
 import {colors} from '../styles'
+import styled from 'styled-components'
 
-const Input = ({label, isPassword, value, onChangeText}) => {
+const TextInputStyled = styled.TextInput`
+  background-color: ${({theme}) => theme.backgroundInput};
+  color: ${({theme}) => theme.text};
+  flex: 1;
+  font-size: ${({theme}) => theme.font.size.medium}px;
+  border: 1px;
+  border-radius: 5px;
+  padding: ${({theme}) => theme.spacing.gutterSize / 2}px;
+`
+
+const Input = ({label, placeholder, isPassword, value, onChangeText}) => {
   return (
     <View style={styles.wrapperStyle}>
       <Text style={styles.labelInput}>{label}</Text>
       <View style={styles.wrapperInput}>
-        <TextInput
+        <TextInputStyled
+          placeholder={placeholder}
           secureTextEntry={isPassword ? true : false}
           autoCapitalize='none'
           autoCorrect={false}
-          style={styles.textInputStyle}
           value={value}
           onChangeText={(newValue) => onChangeText(newValue)}
         />

@@ -12,7 +12,8 @@ const AuthForm = ({
   onSubmit,
   submitButtonText,
   message,
-  errorMessage
+  errorMessage,
+  screenProps
 }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -27,12 +28,14 @@ const AuthForm = ({
           label='Email or username:'
           onChangeText={(newEmail) => setEmail(newEmail)}
           value={email}
+          placeholder='Enter email address'
         />
         <Input
           isPassword
           label='Password:'
           onChangeText={(newPassword) => setPassword(newPassword)}
           value={password}
+          placeholder='Enter password'
         />
       </>
     )
@@ -45,28 +48,33 @@ const AuthForm = ({
           label='Public Username:'
           onChangeText={(newValue) => setUsername(newValue)}
           value={username}
+          placeholder='Enter username'
         />
         <Input
           label='Email:'
           onChangeText={(newEmail) => setEmail(newEmail)}
           value={email}
+          placeholder='Enter email'
         />
         <Input
           isPassword
           label='Password:'
           onChangeText={(newPassword) => setPassword(newPassword)}
           value={password}
+          placeholder='Enter password'
         />
         <Input
           isPassword
           label='Confirm Password:'
           onChangeText={(newPassword) => setConfirmPassword(newPassword)}
           value={confirmPassword}
+          placeholder='Enter confirm password'
         />
         <Input
           label='Phone Number:'
           onChangeText={(newPhone) => setPhone(newPhone)}
           value={phone}
+          placeholder='Enter phone number'
         />
       </>
     )

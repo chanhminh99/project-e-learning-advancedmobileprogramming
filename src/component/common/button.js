@@ -1,8 +1,16 @@
 import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {colors} from '../styles'
+import styled from 'styled-components'
 
-const CustomButton = ({textStyle, text, type, onSubmit = () => {}}) => {
+const TextButtonStyled = styled.Text`
+  color: ${({theme, textColorStyle}) =>
+    textColorStyle ? textColorStyle : theme.text};
+  font-size: ${({theme}) => theme.font.size.largest}px;
+  font-weight: 500;
+`
+
+const CustomButton = ({textColor, text, type, onSubmit = () => {}}) => {
   let style = {}
   if (type === 'outline') {
     style.backgroundColor = 'none'
@@ -19,7 +27,7 @@ const CustomButton = ({textStyle, text, type, onSubmit = () => {}}) => {
       style={{...styles.buttonStyles, ...style}}
       onPress={onSubmit}>
       <View>
-        <Text style={{...styles.text, ...textStyle}}>{text}</Text>
+        <TextButtonStyled textColorStyle={textColor}>{text}</TextButtonStyled>
       </View>
     </TouchableOpacity>
   )
@@ -28,15 +36,10 @@ const CustomButton = ({textStyle, text, type, onSubmit = () => {}}) => {
 const styles = StyleSheet.create({
   buttonStyles: {
     borderRadius: 5,
-    height: 45,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.primary
-  },
-  text: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '500'
   }
 })
 

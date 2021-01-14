@@ -1,9 +1,20 @@
 import React from 'react'
-import {View, StyleSheet} from 'react-native'
+import {StyleSheet} from 'react-native'
+import styled from 'styled-components'
 import Button from '../component/common/button'
 import {colors, font, spacing} from '../component/styles'
 import Spacer from '../component/common/Spacer'
 import IconText from '../component/common/IconText'
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  background-color: ${(props) => props.theme.background};
+`
+
+const WrapperContent = styled.View`
+  margin: ${(props) => `0px ${props.theme.spacing.newGutterSize * 2}px`};
+`
 
 const InitialScreen = ({navigation}) => {
   // if (Platform.OS === 'android') ToastAndroid.show('hihi', ToastAndroid.SHORT)
@@ -11,24 +22,26 @@ const InitialScreen = ({navigation}) => {
   //   Alert.alert('Đăng nhập thành công')
   // }
   return (
-    <View style={styles.wrapperStyle}>
-      <IconText text='PluralRez' />
-      <Button
-        text='Sign in'
-        onSubmit={() => {
-          navigation.navigate('Signin')
-        }}
-      />
-      <Spacer />
-      <Button
-        text='Subscribe to Pluralrez'
-        textStyle={styles.textButtonWithBorder}
-        type='outline'
-        onSubmit={() => {
-          navigation.navigate('Signup')
-        }}
-      />
-    </View>
+    <Container>
+      <WrapperContent>
+        <IconText text='PluralRez' />
+        <Button
+          text='Sign in'
+          onSubmit={() => {
+            navigation.navigate('Signin')
+          }}
+        />
+        <Spacer />
+        <Button
+          text='Subscribe to Pluralrez'
+          textColor={colors.primary}
+          type='outline'
+          onSubmit={() => {
+            navigation.navigate('Signup')
+          }}
+        />
+      </WrapperContent>
+    </Container>
   )
 }
 
@@ -44,15 +57,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: spacing.newGutterSize * 2
   },
-  textButtonWithBackground: {
-    color: colors.white,
-    fontSize: font.size.largest,
-    fontWeight: '500'
-  },
   textButtonWithBorder: {
     color: colors.primary,
     fontSize: font.size.largest,
-    fontWeight: '600'
+    fontWeight: '500'
   }
 })
 

@@ -4,7 +4,8 @@ const light = {
   theme: {
     background: colors.bgLight,
     text: colors.black,
-    border: colors.customLightGrey
+    border: colors.customLightGrey,
+    backgroundInput: colors.bgLight
   }
 }
 

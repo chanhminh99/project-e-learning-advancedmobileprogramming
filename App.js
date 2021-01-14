@@ -21,52 +21,58 @@ import {Provider as AuthProvider} from './src/context/AuthContext'
 import {Provider as UserProvider} from './src/context/UserContext'
 import ThemeManager from './src/themes'
 import {withTheme} from 'styled-components'
-const switchNavigator = createSwitchNavigator(
-  {
-    ResolveAuth: ResolveAuthScreen,
-    loginFLow: createStackNavigator({
-      Init: InitialScreen,
-      Signin: SigninScreen,
-      Signup: SignupScreen
-    }),
-    mainFlow: createBottomTabNavigator(
-      {
-        Home: HomeScreen,
-        Downloads: DownloadsScreen,
-        Browser: BrowserScreen,
-        Search: SearchScreen
-      },
-      {
-        tabBarOptions: {
-          activeTintColor: colors.primary
+const switchNavigator = withTheme(
+  createSwitchNavigator(
+    {
+      ResolveAuth: ResolveAuthScreen,
+      loginFLow: createStackNavigator({
+        Init: InitialScreen,
+        Signin: SigninScreen,
+        Signup: SignupScreen
+      }),
+      mainFlow: createBottomTabNavigator(
+        {
+          Home: HomeScreen,
+          Downloads: DownloadsScreen,
+          Browser: BrowserScreen,
+          Search: SearchScreen
+        },
+        {
+          tabBarOptions: {
+            activeTintColor: colors.primary,
+            style: {
+              backgroundColor: colors.backgroundInput,
+              paddingHorizontal: 5
+            }
+          }
+        }
+      )
+    },
+    {
+      initialRouteName: 'ResolveAuth',
+      defaultNavigationOptions: {
+        headerTitleStyle: {
+          fontWeight: 'bold'
         }
       }
-    )
-  },
-  {
-    initialRouteName: 'ResolveAuth',
-    defaultNavigationOptions: {
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      }
     }
-  }
+  )
 )
 
 const App = createAppContainer(switchNavigator)
 
-// const AppWithTheme = withTheme(({theme}) => {
-//   return (
-//     <App screenProps={{theme}} ref={(navigator) => setNavigator(navigator)} />
-//   )
-// })
+const AppWithTheme = withTheme(({theme}) => {
+  return (
+    <App screenProps={{theme}} ref={(navigator) => setNavigator(navigator)} />
+  )
+})
 
 export default () => {
   return (
     <UserProvider>
       <AuthProvider>
         <ThemeManager>
-          <App ref={(navigator) => setNavigator(navigator)} />
+          <AppWithTheme />
         </ThemeManager>
       </AuthProvider>
     </UserProvider>

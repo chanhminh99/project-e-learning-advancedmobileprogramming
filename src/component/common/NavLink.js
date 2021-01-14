@@ -1,35 +1,34 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
-import Spacer from './Spacer'
+import {TouchableOpacity} from 'react-native'
 import {withNavigation} from 'react-navigation'
-import {colors, font} from '../styles'
+import styled from 'styled-components'
+
+const Wrapper = styled.View`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+const TextStyled = styled.Text`
+  color: ${({theme}) => theme.text};
+  margin-bottom: ${({theme}) => theme.spacing.newGutterSize / 2}px;
+`
+
+const LinkTextStyled = styled.Text`
+  color: ${({theme}) => theme.text};
+  font-weight: 600;
+  font-size: ${({theme}) => theme.font.size.large}px;
+`
 
 const NavLink = ({navigation, text, textRouteName, routeName}) => {
   return (
-    <Spacer>
-      <View style={styles.wrapper}>
-        <Text style={styles.text}>{text}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
-          <Text style={styles.link}>{textRouteName}</Text>
-        </TouchableOpacity>
-      </View>
-    </Spacer>
+    <Wrapper>
+      <TextStyled>{text}</TextStyled>
+      <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
+        <LinkTextStyled>{textRouteName.toUpperCase()}</LinkTextStyled>
+      </TouchableOpacity>
+    </Wrapper>
   )
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  text: {
-    color: colors.white
-  },
-  link: {
-    color: colors.white,
-    fontWeight: '600',
-    fontSize: font.size.medium
-  }
-})
 
 export default withNavigation(NavLink)
