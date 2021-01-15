@@ -20,6 +20,7 @@ const normalizeColors = {
   primary: '#0084BD',
   backgroundInput: '#1E2429',
   labelInput: 'rgba(138, 153, 168, 1)',
+  backgroundHeader: '#1E2429',
   bgDark: '#0D0F12',
   bgLight: '#EDEDED',
   textHeader: 'rgba(138, 153, 168, 1)'

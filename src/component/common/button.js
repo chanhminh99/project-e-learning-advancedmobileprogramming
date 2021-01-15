@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 const TextButtonStyled = styled.Text`
   color: ${({theme, textColorStyle}) =>
-    textColorStyle ? textColorStyle : theme.text};
+    textColorStyle ? textColorStyle : theme.colors.white};
   font-size: ${({theme}) => theme.font.size.largest}px;
   font-weight: 500;
 `

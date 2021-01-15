@@ -5,24 +5,19 @@ import Button from '../component/common/button'
 import {colors, font, spacing} from '../component/styles'
 import Spacer from '../component/common/Spacer'
 import IconText from '../component/common/IconText'
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  background-color: ${(props) => props.theme.background};
-`
+import Container from '../component/common/Container'
 
 const WrapperContent = styled.View`
   margin: ${(props) => `0px ${props.theme.spacing.newGutterSize * 2}px`};
 `
 
-const InitialScreen = ({navigation}) => {
+const InitialScreen = ({navigation, screenProps: {theme}}) => {
   // if (Platform.OS === 'android') ToastAndroid.show('hihi', ToastAndroid.SHORT)
   // else {
   //   Alert.alert('Đăng nhập thành công')
   // }
   return (
-    <Container>
+    <Container theme={theme}>
       <WrapperContent>
         <IconText text='PluralRez' />
         <Button

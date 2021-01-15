@@ -1,23 +1,18 @@
 import React, {useContext} from 'react'
-import {View, StyleSheet, ScrollView} from 'react-native'
+import {StyleSheet, ScrollView} from 'react-native'
 import styled from 'styled-components'
 import {NavigationEvents} from 'react-navigation'
 import AuthForm from '../component/form/AuthForm'
 import TextHeader from '../component/common/TextHeader'
 import NavLink from '../component/common/NavLink'
 import Spacer from '../component/common/Spacer'
+import Container from '../component/common/Container'
 import KeyboardIntelligent from '../component/common/KeyboardIntelligent'
 
 //Context
 import {Context as AuthContext} from '../context/AuthContext'
 
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  background-color: ${(props) => props.theme.background};
-`
-
-const SignupScreen = () => {
+const SignupScreen = ({screenProps}) => {
   const {state, signup, clearMessage, addErrorMessage} = useContext(AuthContext)
 
   const _onSubmitSignupForm = ({
@@ -36,7 +31,7 @@ const SignupScreen = () => {
     }
   }
   return (
-    <Container>
+    <Container theme={screenProps.theme}>
       <KeyboardIntelligent>
         <ScrollView>
           <NavigationEvents
@@ -44,33 +39,41 @@ const SignupScreen = () => {
               clearMessage()
             }}
           />
-          <TextHeader text='Sign up to PluralRez' />
-          <Spacer>
-            <AuthForm
-              isSignupForm
-              submitButtonText='Sign up'
-              onSubmit={_onSubmitSignupForm}
-              errorMessage={state.errorMessage}
-              message={state.message}
-            />
-            <Spacer />
-            <NavLink
-              text='Already have an account? '
-              textRouteName='Sign in'
-              routeName='Signin'
-            />
-          </Spacer>
+          <Spacer />
+          <TextHeader
+            text='Create your account'
+            textStyle={{color: screenProps.theme.text, textTransform: 'none'}}
+          />
+          <TextHeader
+            text='Please enter your credentials in the form below'
+            textStyle={{
+              color: screenProps.theme.text,
+              textTransform: 'none',
+              fontSize: screenProps.theme.font.size.small,
+              letterSpacing: 0
+            }}
+          />
+          <AuthForm
+            isSignupForm
+            submitButtonText='Sign up'
+            onSubmit={_onSubmitSignupForm}
+            errorMessage={state.errorMessage}
+            message={state.message}
+            screenProps={screenProps}
+          />
+          <Spacer />
+          <NavLink
+            text='Already have an account? '
+            textRouteName='Sign in'
+            routeName='Signin'
+          />
         </ScrollView>
       </KeyboardIntelligent>
     </Container>
   )
 }
 
-const styles = StyleSheet.create({
-  wrapperStyle: {
-    flex: 1
-  }
-})
+const styles = StyleSheet.create({})
 
 SignupScreen.navigationOptions = () => ({
   headerShown: false

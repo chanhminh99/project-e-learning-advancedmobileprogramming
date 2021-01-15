@@ -99,6 +99,7 @@ const AuthForm = ({
       <Spacer />
       <Button
         title={submitButtonText}
+        titleStyle={{color: screenProps.theme.colors.white}}
         onPress={() =>
           isSignupForm
             ? onSubmit({username, email, password, confirmPassword, phone})
@@ -111,7 +112,7 @@ const AuthForm = ({
 
 const styles = StyleSheet.create({
   wrapperStyle: {
-    marginTop: spacing.gutterSize
+    margin: spacing.gutterSize / 2
   },
   errorMessage: {
     fontSize: font.size.large,

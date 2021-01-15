@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
-import {Foundation} from '@expo/vector-icons'
+
 const BrowserScreen = () => {
   return (
     <View>
@@ -9,11 +9,14 @@ const BrowserScreen = () => {
   )
 }
 
-BrowserScreen.navigationOptions = () => {
+BrowserScreen.navigationOptions = ({screenProps}) => {
   return {
-    tabBarIcon: ({tintColor}) => (
-      <Foundation name='page-multiple' size={24} color={tintColor} />
-    )
+    headerStyle: {
+      backgroundColor: screenProps.theme.background,
+      shadowColor: 'transparent'
+    },
+    headerTintColor: 'transparent',
+    headerShown: false
   }
 }
 

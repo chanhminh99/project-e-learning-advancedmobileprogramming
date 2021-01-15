@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
-import {MaterialCommunityIcons} from '@expo/vector-icons'
+
 const DownloadsScreen = () => {
   return (
     <View>
@@ -9,15 +9,14 @@ const DownloadsScreen = () => {
   )
 }
 
-DownloadsScreen.navigationOptions = () => {
+DownloadsScreen.navigationOptions = ({screenProps}) => {
   return {
-    tabBarIcon: ({tintColor}) => (
-      <MaterialCommunityIcons
-        name='download-circle-outline'
-        size={24}
-        color={tintColor}
-      />
-    )
+    headerStyle: {
+      backgroundColor: screenProps.theme.background,
+      shadowColor: 'transparent'
+    },
+    headerTintColor: 'transparent',
+    headerShown: false
   }
 }
 

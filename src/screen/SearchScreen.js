@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
-import {Ionicons} from '@expo/vector-icons'
+
 const SearchScreen = () => {
   return (
     <View>
@@ -9,11 +9,14 @@ const SearchScreen = () => {
   )
 }
 
-SearchScreen.navigationOptions = () => {
+SearchScreen.navigationOptions = ({screenProps}) => {
   return {
-    tabBarIcon: ({tintColor}) => (
-      <Ionicons name='search' size={24} color={tintColor} />
-    )
+    headerStyle: {
+      backgroundColor: screenProps.theme.background,
+      shadowColor: 'transparent'
+    },
+    headerTintColor: 'transparent',
+    headerShown: false
   }
 }
 

@@ -1,18 +1,20 @@
 import React, {useContext, useEffect} from 'react'
 import {StyleSheet, Switch} from 'react-native'
 import styled from 'styled-components/native'
-import {AntDesign} from '@expo/vector-icons'
+import Container from '../component/common/Container'
+//Icon
+import {Ionicons} from '@expo/vector-icons'
+import {Avatar} from 'react-native-elements'
 //Context
 import {Context as UserContext} from '../context/UserContext'
 
 import {ThemeContext} from '../themes'
+import Spacer from '../component/common/Spacer'
 
 //Style
-const Container = styled.View`
-  flex: 1;
-  background-color: ${(props) => props.theme.background};
+
+const WrapperHome = styled.View`
   align-items: center;
-  justify-content: center;
 `
 
 const Title = styled.Text`
@@ -23,28 +25,55 @@ const Title = styled.Text`
 const HomeScreen = ({screenProps}) => {
   const {state: user, getUserInfo} = useContext(UserContext)
   // Hook Theme
-  const theme = useContext(ThemeContext)
+
   useEffect(() => {
     getUserInfo()
   }, [])
 
   return (
-    <Container>
-      <Title>Chanh Test</Title>
-      <Switch
-        value={theme.mode === 'dark'}
-        onValueChange={(value) => {
-          theme.setMode(value ? 'dark' : 'light')
-        }}
-      />
+    <Container theme={screenProps.theme}>
+      <WrapperHome>
+        <Title>Chanh Test</Title>
+      </WrapperHome>
     </Container>
   )
 }
 
-HomeScreen.navigationOptions = () => {
+HomeScreen.navigationOptions = ({navigation, screenProps}) => {
   return {
-    tabBarIcon: ({tintColor}) => (
-      <AntDesign name='home' size={24} color={tintColor} />
+    headerStyle: {
+      backgroundColor: screenProps.theme.background,
+      shadowColor: 'transparent'
+    },
+    headerTintColor: 'transparent',
+    headerLeft: () => (
+      <Spacer>
+        <Ionicons
+          name='settings-outline'
+          size={24}
+          color={screenProps.theme.colors.primary}
+          onPress={() =>
+            navigation.navigate('MyModal', {
+              title: 'Settings'
+            })
+          }
+        />
+      </Spacer>
+    ),
+    headerRight: () => (
+      <Spacer>
+        <Avatar
+          size='medium'
+          rounded
+          overlayContainerStyle={{
+            backgroundColor: screenProps.theme.colors.primary
+          }}
+          icon={{name: 'user', type: 'font-awesome'}}
+          onPress={() => navigation.navigate('Profile')}
+          activeOpacity={0.7}
+          containerStyle={{flex: 1, marginLeft: 0, marginTop: 0}}
+        />
+      </Spacer>
     )
   }
 }

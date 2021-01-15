@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, StyleSheet, TextInput} from 'react-native'
+import {View, Text, StyleSheet, Dimensions} from 'react-native'
 import {colors} from '../styles'
 import styled from 'styled-components'
 
@@ -31,12 +31,14 @@ const Input = ({label, placeholder, isPassword, value, onChangeText}) => {
   )
 }
 
+const screenHeight = Dimensions.get('screen').height
+
 const styles = StyleSheet.create({
   wrapperStyle: {
     marginBottom: 15
   },
   wrapperInput: {
-    height: 50
+    height: (screenHeight / 10) * 0.6
   },
   labelInput: {
     fontSize: 18,

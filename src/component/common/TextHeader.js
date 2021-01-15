@@ -1,21 +1,24 @@
 import React from 'react'
 import {View, StyleSheet, Text} from 'react-native'
 import {colors, font, spacing} from '../styles'
-const TextHeader = ({text}) => {
+import Spacer from './Spacer'
+const TextHeader = ({text, textStyle}) => {
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.textStyle}>{text}</Text>
+      <Text style={{...styles.textDefaultStyle, ...textStyle}}>{text}</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: spacing.gutterSize * 5
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
   },
-  textStyle: {
+  textDefaultStyle: {
     color: colors.textHeader,
-    fontSize: font.size.largest,
+    fontSize: font.size.largest * 1.5,
     textTransform: 'uppercase',
     fontWeight: '600',
     letterSpacing: spacing.gutterSize / 2,
