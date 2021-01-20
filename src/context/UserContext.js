@@ -3,20 +3,68 @@ import elearningApi from '../api/elearning'
 import {navigate} from '../navigationRef'
 
 const initialState = {
-  id: '',
-  email: '',
-  avatar: '',
-  name: '',
-  favoriteCategories: [],
-  phone: ''
+  data: {
+    id: '',
+    email: '',
+    avatar: '',
+    name: '',
+    favoriteCategories: [],
+    phone: ''
+  },
+  msg: ''
 }
 
 const userReducer = (state, action) => {
   switch (action.type) {
-    case 'get_info':
+    case 'clear_message':
+      return {...state, msg: ''}
+    case 'update_info':
       return action.payload
+    case 'get_info':
+      return {...state, data: action.payload}
     default:
       return state
+  }
+}
+
+const clearMessage = (dispatch) => () => {
+  dispatch({type: 'clear_message'})
+}
+
+const updateProfile = (dispatch) => async ({name, avatar, phone}) => {
+  try {
+    const response = await elearningApi.put('/user/update-profile', {
+      name,
+      avatar,
+      phone
+    })
+
+    if (response.data.message === 'OK') {
+      const {
+        id,
+        email,
+        avatar,
+        name,
+        phone,
+        favoriteCategories
+      } = response.data.payload
+      dispatch({
+        type: 'update_info',
+        payload: {
+          data: {
+            id,
+            email,
+            avatar,
+            name,
+            phone,
+            favoriteCategories
+          },
+          msg: 'Update successfully!'
+        }
+      })
+    }
+  } catch (err) {
+    console.log('err', err.response.data)
   }
 }
 
@@ -43,7 +91,9 @@ const getUserInfo = (dispatch) => async () => {
 export const {Context, Provider} = createDataContext(
   userReducer,
   {
-    getUserInfo
+    getUserInfo,
+    updateProfile,
+    clearMessage
   },
   initialState
 )

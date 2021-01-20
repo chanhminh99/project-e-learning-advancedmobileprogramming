@@ -84,8 +84,11 @@ const tryLocalSignin = (dispatch) => async () => {
       await AsyncStorage.removeItem('token')
       navigate('loginFlow')
     } else {
-      dispatch({type: 'signin', payload: token})
-      navigate('mainFlow')
+      await dispatch({type: 'signin', payload: token})
+      const response = await elearningApi.get('/user/me')
+      navigate('Home', {
+        avatar: response.data.payload.avatar
+      })
     }
   } else {
     navigate('loginFLow')
@@ -97,8 +100,10 @@ const signin = (dispatch) => async ({email, password}) => {
     const response = await elearningApi.post('/user/login', {email, password})
     await AsyncStorage.setItem('token', response.data.token)
     dispatch({type: 'signin', payload: response.data.token})
-    console.log(response.data)
-    navigate('mainFlow')
+    const avatar = response.data.userInfo.avatar
+    navigate('Home', {
+      avatar
+    })
   } catch (err) {
     dispatch({
       type: 'add_error',

@@ -39,14 +39,14 @@ const SettingScreen = ({screenProps, navigation}) => {
         <WrapperCard
           onPress={() =>
             navigation.navigate('MyModal', {
-              title: 'ChangePass',
+              title: 'Settings Profile',
               preScreen: 'Settings'
             })
           }>
           <Card.Title style={textStyle}>Account</Card.Title>
           <AntDesign
             name='arrowright'
-            size={screenProps.theme.font.size.medium * 2}
+            size={screenProps.theme.font.size.small * 2}
             color={screenProps.theme.colors.customLightGrey}
           />
         </WrapperCard>
@@ -74,8 +74,24 @@ const SettingScreen = ({screenProps, navigation}) => {
           </Text>
         </WrapperCard>
         <Card.Divider />
-      </Card>
-      <Spacer>
+        <WrapperCard>
+          <Card.Title style={textStyle}>Send feedback</Card.Title>
+          <AntDesign
+            name='arrowright'
+            size={screenProps.theme.font.size.small * 2}
+            color={screenProps.theme.colors.customLightGrey}
+          />
+        </WrapperCard>
+        <Card.Divider />
+        <WrapperCard>
+          <Card.Title style={textStyle}>Contact support</Card.Title>
+          <AntDesign
+            name='arrowright'
+            size={screenProps.theme.font.size.small * 2}
+            color={screenProps.theme.colors.customLightGrey}
+          />
+        </WrapperCard>
+        <Card.Divider />
         <Button
           text='Sign out'
           textColor={screenProps.theme.colors.primary}
@@ -84,7 +100,7 @@ const SettingScreen = ({screenProps, navigation}) => {
             signout()
           }}
         />
-      </Spacer>
+      </Card>
     </View>
   )
 }

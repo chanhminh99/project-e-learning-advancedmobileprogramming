@@ -2,13 +2,13 @@ import React, {useContext, useEffect} from 'react'
 import {StyleSheet, Switch} from 'react-native'
 import styled from 'styled-components/native'
 import Container from '../component/common/Container'
+
 //Icon
 import {Ionicons} from '@expo/vector-icons'
 import {Avatar} from 'react-native-elements'
 //Context
 import {Context as UserContext} from '../context/UserContext'
 
-import {ThemeContext} from '../themes'
 import Spacer from '../component/common/Spacer'
 
 //Style
@@ -22,12 +22,20 @@ const Title = styled.Text`
   color: ${(props) => props.theme.text};
 `
 
-const HomeScreen = ({screenProps}) => {
-  const {state: user, getUserInfo} = useContext(UserContext)
+const HomeScreen = ({screenProps, navigation}) => {
+  const {state, getUserInfo} = useContext(UserContext)
   // Hook Theme
 
   useEffect(() => {
     getUserInfo()
+
+    const listener = navigation.addListener('didFocus', () => {
+      getUserInfo()
+    })
+
+    return () => {
+      listener.remove()
+    }
   }, [])
 
   return (
@@ -40,6 +48,7 @@ const HomeScreen = ({screenProps}) => {
 }
 
 HomeScreen.navigationOptions = ({navigation, screenProps}) => {
+  const avatar = navigation.getParam('avatar')
   return {
     headerStyle: {
       backgroundColor: screenProps.theme.background,
@@ -63,15 +72,14 @@ HomeScreen.navigationOptions = ({navigation, screenProps}) => {
     headerRight: () => (
       <Spacer>
         <Avatar
-          size='medium'
+          size='large'
           rounded
-          overlayContainerStyle={{
-            backgroundColor: screenProps.theme.colors.primary
+          source={{
+            uri: avatar
           }}
-          icon={{name: 'user', type: 'font-awesome'}}
           onPress={() => navigation.navigate('Profile')}
           activeOpacity={0.7}
-          containerStyle={{flex: 1, marginLeft: 0, marginTop: 0}}
+          avatarStyle={{width: 30, height: 30, marginTop: 25, marginLeft: 45}}
         />
       </Spacer>
     )
