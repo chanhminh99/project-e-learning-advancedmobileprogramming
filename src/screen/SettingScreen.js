@@ -5,7 +5,7 @@ import {withNavigation} from 'react-navigation'
 import styled from 'styled-components'
 import {Card, Text} from 'react-native-elements'
 import Button from '../component/common/button'
-
+import {APP_VERSION} from '../component/constants'
 //Context
 import {ThemeContext} from '../themes'
 import {Context as AuthContext} from '../context/AuthContext'
@@ -86,7 +86,7 @@ const SettingScreen = ({screenProps, navigation}) => {
               fontSize: screenProps.theme.font.size.large,
               fontWeight: 'normal'
             }}>
-            1.0.0
+            {APP_VERSION}
           </Text>
         </WrapperCard>
         <Card.Divider />

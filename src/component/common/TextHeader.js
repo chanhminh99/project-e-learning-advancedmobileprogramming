@@ -1,7 +1,7 @@
 import React from 'react'
 import {View, StyleSheet, Text} from 'react-native'
 import {colors, font, spacing} from '../styles'
-import Spacer from './Spacer'
+
 const TextHeader = ({text, textStyle}) => {
   return (
     <View style={styles.wrapper}>
