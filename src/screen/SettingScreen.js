@@ -1,11 +1,10 @@
 import React, {useContext} from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {Switch, View} from 'react-native'
-
 import {withNavigation} from 'react-navigation'
 import styled from 'styled-components'
 import {Card, Text} from 'react-native-elements'
 import Button from '../component/common/button'
-import Spacer from '../component/common/Spacer'
 
 //Context
 import {ThemeContext} from '../themes'
@@ -70,8 +69,10 @@ const SettingScreen = ({screenProps, navigation}) => {
           <Card.Title style={textStyle}>Dark mode</Card.Title>
           <Switch
             value={theme.mode === 'dark'}
-            onValueChange={(value) => {
-              theme.setMode(value ? 'dark' : 'light')
+            onValueChange={async (value) => {
+              const themeStore = value ? 'dark' : 'light'
+              theme.setMode(themeStore)
+              await AsyncStorage.setItem('theme', themeStore)
             }}
           />
         </WrapperCard>

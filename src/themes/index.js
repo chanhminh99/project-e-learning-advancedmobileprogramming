@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {SafeAreaView} from 'react-navigation'
 import {StatusBar} from 'react-native'
 import {ThemeProvider, withTheme} from 'styled-components/native'
@@ -15,6 +16,8 @@ import {colors} from '../component/styles'
 
 const defaultMode = Appearance.getColorScheme() || 'light'
 
+console.log('mode', defaultMode)
+
 export const ThemeContext = React.createContext({
   mode: defaultMode,
   setMode: (mode) => console.log(mode)
@@ -28,6 +31,16 @@ const ManageThemeProvider = ({children}) => {
     const subscriber = Appearance.addChangeListener(({colorScheme}) => {
       setTheme(colorScheme)
     })
+
+    async function fetchTheme() {
+      themeStore = await AsyncStorage.getItem('theme')
+      if (themeStore) {
+        setTheme(themeStore)
+      }
+    }
+
+    fetchTheme()
+
     // Will UnMount
     return () => subscriber.remove()
   }, [])
@@ -35,6 +48,7 @@ const ManageThemeProvider = ({children}) => {
   const currentTheme = theme === 'dark' ? darkTheme.theme : lightTheme.theme
 
   // console.log({...myCustomTheme, currentTheme})
+  console.log(theme)
 
   return (
     <ThemeContext.Provider value={{mode: theme, setMode}}>
