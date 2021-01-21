@@ -39,11 +39,26 @@ const SettingScreen = ({screenProps, navigation}) => {
         <WrapperCard
           onPress={() =>
             navigation.navigate('MyModal', {
-              title: 'Settings Profile',
+              title: 'Settings Account',
               preScreen: 'Settings'
             })
           }>
           <Card.Title style={textStyle}>Account</Card.Title>
+          <AntDesign
+            name='arrowright'
+            size={screenProps.theme.font.size.small * 2}
+            color={screenProps.theme.colors.customLightGrey}
+          />
+        </WrapperCard>
+        <Card.Divider />
+        <WrapperCard
+          onPress={() =>
+            navigation.navigate('MyModal', {
+              title: 'Change Language',
+              preScreen: 'Settings'
+            })
+          }>
+          <Card.Title style={textStyle}>Change Language</Card.Title>
           <AntDesign
             name='arrowright'
             size={screenProps.theme.font.size.small * 2}
@@ -75,7 +90,7 @@ const SettingScreen = ({screenProps, navigation}) => {
         </WrapperCard>
         <Card.Divider />
         <WrapperCard>
-          <Card.Title style={textStyle}>Send feedback</Card.Title>
+          <Card.Title style={textStyle}>Contact support</Card.Title>
           <AntDesign
             name='arrowright'
             size={screenProps.theme.font.size.small * 2}
@@ -84,7 +99,7 @@ const SettingScreen = ({screenProps, navigation}) => {
         </WrapperCard>
         <Card.Divider />
         <WrapperCard>
-          <Card.Title style={textStyle}>Contact support</Card.Title>
+          <Card.Title style={textStyle}>About us</Card.Title>
           <AntDesign
             name='arrowright'
             size={screenProps.theme.font.size.small * 2}

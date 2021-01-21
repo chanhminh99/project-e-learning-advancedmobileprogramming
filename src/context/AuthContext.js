@@ -35,6 +35,31 @@ const clearMessage = (dispatch) => () => {
   dispatch({type: 'clear_message'})
 }
 
+const changePassword = (dispatch) => async ({
+  id,
+  currentPassword,
+  newPassword
+}) => {
+  try {
+    const response = await elearningApi.post('/user/change-password', {
+      id,
+      currentPassword,
+      newPassword
+    })
+
+    dispatch({
+      type: 'change_pass',
+      payload: 'Update new password successfully!'
+    })
+  } catch (err) {
+    console.log(err.response.data)
+    dispatch({
+      type: 'add_error',
+      payload: 'Something went wrong with change password'
+    })
+  }
+}
+
 const signup = (dispatch) => async ({username, email, password, phone}) => {
   try {
     const response = await elearningApi.post('/user/register', {
@@ -115,7 +140,6 @@ const signin = (dispatch) => async ({email, password}) => {
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem('token')
   dispatch({type: 'signout'})
-  console.log('haha')
   navigate('loginFLow')
 }
 
@@ -127,7 +151,8 @@ export const {Context, Provider} = createDataContext(
     signout,
     addErrorMessage,
     clearMessage,
-    tryLocalSignin
+    tryLocalSignin,
+    changePassword
   },
   initialState
 )

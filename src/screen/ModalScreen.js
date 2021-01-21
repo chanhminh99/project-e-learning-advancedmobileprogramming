@@ -3,6 +3,7 @@ import {View, Text, Button, StyleSheet} from 'react-native'
 import SettingScreen from '../screen/SettingScreen'
 import styled from 'styled-components'
 import {AntDesign} from '@expo/vector-icons'
+import SettingAccount from './SettingAccount'
 
 const ModalWrapper = styled.View`
   flex: 1;
@@ -24,6 +25,17 @@ const TextHeader = styled.Text`
 const ModalScreen = ({navigation, screenProps}) => {
   const title = navigation.getParam('title')
   const previousScreen = navigation.getParam('preScreen')
+
+  const renderScreen = (title) => {
+    switch (title) {
+      case 'Settings':
+        return <SettingScreen screenProps={screenProps} />
+      case 'Settings Account':
+        return <SettingAccount screenProps={screenProps} />
+      default:
+        return null
+    }
+  }
 
   return (
     <ModalWrapper>
@@ -47,9 +59,7 @@ const ModalScreen = ({navigation, screenProps}) => {
         />
       </ModalHeader>
 
-      {title === 'Settings' ? (
-        <SettingScreen screenProps={screenProps} />
-      ) : null}
+      {renderScreen(title)}
     </ModalWrapper>
   )
 }

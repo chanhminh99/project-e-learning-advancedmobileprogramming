@@ -1,11 +1,11 @@
 import React, {useEffect, useContext, useState} from 'react'
-import {Button, Dimensions} from 'react-native'
+import {Button, Dimensions, Platform} from 'react-native'
 import styled from 'styled-components/native'
 import Container from '../component/common/Container'
 import TextSuccess from '../component/common/TextSuccess'
 import Spacer from '../component/common/Spacer'
 import {Avatar} from 'react-native-elements'
-
+import * as ImagePicker from 'expo-image-picker'
 import {Card, Input, Text} from 'react-native-elements'
 //Context
 import {Context as UserContext} from '../context/UserContext'
@@ -39,8 +39,11 @@ const ProfileScreen = ({navigation, screenProps}) => {
 
   const [name, setName] = useState(data.name)
   const [phone, setPhone] = useState(data.phone)
-  const avatar = data.avatar
+  const [image, setImage] = useState(null)
+  //Edit here if have api upload avatar
+  // const avatar = image || data.avatar
 
+  const avatar = data.avatar
   useEffect(() => {
     getUserInfo()
 
@@ -53,6 +56,31 @@ const ProfileScreen = ({navigation, screenProps}) => {
       listener.remove()
     }
   }, [])
+
+  useEffect(() => {
+    const subscriber = async () => {
+      if (Platform.OS !== 'web') {
+        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync()
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!')
+        }
+      }
+    }
+    subscriber()
+  }, [])
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    })
+
+    if (!result.cancelled) {
+      setImage(result.uri)
+    }
+  }
 
   return (
     <Container theme={screenProps.theme}>
@@ -72,12 +100,9 @@ const ProfileScreen = ({navigation, screenProps}) => {
           size='xlarge'
           rounded
           source={{
-            uri: data.avatar
+            uri: image || data.avatar
           }}>
-          <Avatar.Accessory
-            size={width / 10}
-            onPress={() => console.log('Not found')}
-          />
+          <Avatar.Accessory size={width / 10} onPress={pickImage} />
         </AvatarStyled>
         <Spacer />
         <Input
