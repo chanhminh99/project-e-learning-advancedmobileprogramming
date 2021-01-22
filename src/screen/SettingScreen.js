@@ -5,7 +5,7 @@ import {withNavigation} from 'react-navigation'
 import styled from 'styled-components'
 import {Card, Text} from 'react-native-elements'
 import Button from '../component/common/button'
-import {APP_VERSION} from '../component/constants'
+import {APP_VERSION} from '../component/constants/index'
 //Context
 import {ThemeContext} from '../themes'
 import {Context as AuthContext} from '../context/AuthContext'

@@ -1,6 +1,5 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {ScrollView} from 'react-native'
-import styled from 'styled-components'
 import {NavigationEvents} from 'react-navigation'
 import AuthForm from '../component/form/AuthForm'
 import TextHeader from '../component/common/TextHeader'
@@ -8,11 +7,17 @@ import KeyboardIntelligent from '../component/common/KeyboardIntelligent'
 import NavLink from '../component/common/NavLink'
 import Spacer from '../component/common/Spacer'
 import Container from '../component/common/Container'
+
 //Context
 import {Context as AuthContext} from '../context/AuthContext'
 
 const SigninScreen = ({screenProps}) => {
   const {state, signin, clearMessage, addErrorMessage} = useContext(AuthContext)
+  const [visibleForgot, setVisibleForgot] = useState(false)
+
+  const toggleOverlay = () => {
+    setVisibleForgot(!visibleForgot)
+  }
 
   const _onSubmitSigninForm = ({email, password}) => {
     if (!email || !password) {
@@ -51,6 +56,8 @@ const SigninScreen = ({screenProps}) => {
               onSubmit={_onSubmitSigninForm}
               errorMessage={state.errorMessage}
               screenProps={screenProps}
+              toggleOverlay={toggleOverlay}
+              visibleForgot={visibleForgot}
             />
             <NavLink
               text='Dont have an account? '

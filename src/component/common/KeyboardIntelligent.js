@@ -9,7 +9,6 @@ import {
 const KeyboardIntelligent = ({children}) => {
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         {children}

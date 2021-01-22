@@ -4,7 +4,8 @@ import Input from './input'
 import {colors, font, spacing} from '../styles'
 import Spacer from '../common/Spacer'
 import {Button, Text} from 'react-native-elements'
-
+import Overlay from '../common/Overlay'
+import ForgotPasswordScreen from '../../screen/ForgotPasswordScreen'
 import {NavigationEvents} from 'react-navigation'
 
 const AuthForm = ({
@@ -13,7 +14,9 @@ const AuthForm = ({
   submitButtonText,
   message,
   errorMessage,
-  screenProps
+  screenProps,
+  toggleOverlay,
+  visibleForgot
 }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -91,6 +94,16 @@ const AuthForm = ({
         }}
       />
       {isSignupForm ? _renderFormRegister() : _renderFormLogin()}
+      <Text
+        style={{
+          color: screenProps.theme.colors.primary,
+          alignSelf: 'flex-end',
+          fontSize: screenProps.theme.font.size.large,
+          marginRight: screenProps.theme.spacing.gutterSize * 2
+        }}
+        onPress={toggleOverlay}>
+        Forgot Password
+      </Text>
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : message ? (
@@ -105,6 +118,12 @@ const AuthForm = ({
             ? onSubmit({username, email, password, confirmPassword, phone})
             : onSubmit({email, password})
         }
+      />
+      <Overlay
+        screenProps={screenProps}
+        visible={visibleForgot}
+        toggleOverlay={toggleOverlay}
+        component={<ForgotPasswordScreen screenProps={screenProps} />}
       />
     </View>
   )

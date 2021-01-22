@@ -17,6 +17,8 @@ const authReducer = (state, action) => {
     case 'clear_message':
       return {...state, message: '', errorMessage: ''}
     case 'signup':
+    case 'change_pass':
+    case 'send_reset_pass':
       return {...state, message: action.payload, errorMessage: ''}
     case 'signin':
       return {message: '', errorMessage: '', token: action.payload}
@@ -33,6 +35,16 @@ const addErrorMessage = (dispatch) => (error) => {
 
 const clearMessage = (dispatch) => () => {
   dispatch({type: 'clear_message'})
+}
+
+const forgotPassword = (dispatch) => async ({email}) => {
+  try {
+    await elearningApi.post('/user/forget-pass/send-email', {email})
+    dispatch({type: 'send_reset_pass', payload: 'Send successfully!'})
+  } catch (err) {
+    console.log(err.response.data)
+    dispatch({type: 'add_error', payload: err.response.data.message})
+  }
 }
 
 const changePassword = (dispatch) => async ({
@@ -152,7 +164,8 @@ export const {Context, Provider} = createDataContext(
     addErrorMessage,
     clearMessage,
     tryLocalSignin,
-    changePassword
+    changePassword,
+    forgotPassword
   },
   initialState
 )

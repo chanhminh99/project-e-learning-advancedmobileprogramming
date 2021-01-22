@@ -4,6 +4,7 @@ import SettingScreen from '../screen/SettingScreen'
 import styled from 'styled-components'
 import {AntDesign} from '@expo/vector-icons'
 import SettingAccount from './SettingAccount'
+import ForgotPasswordScreen from './ForgotPasswordScreen'
 
 const ModalWrapper = styled.View`
   flex: 1;
@@ -32,6 +33,8 @@ const ModalScreen = ({navigation, screenProps}) => {
         return <SettingScreen screenProps={screenProps} />
       case 'Settings Account':
         return <SettingAccount screenProps={screenProps} />
+      case 'Forgot Password':
+        return <ForgotPasswordScreen screenProps={screenProps} />
       default:
         return null
     }

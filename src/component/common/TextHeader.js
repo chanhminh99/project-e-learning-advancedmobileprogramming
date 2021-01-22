@@ -13,8 +13,7 @@ const TextHeader = ({text, textStyle}) => {
 const styles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1
+    alignItems: 'center'
   },
   textDefaultStyle: {
     color: colors.textHeader,
