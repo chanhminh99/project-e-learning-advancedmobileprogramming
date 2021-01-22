@@ -121,7 +121,7 @@ const tryLocalSignin = (dispatch) => async () => {
       await AsyncStorage.removeItem('token')
       navigate('loginFlow')
     } else {
-      await dispatch({type: 'signin', payload: token})
+      dispatch({type: 'signin', payload: token})
       const response = await elearningApi.get('/user/me')
       navigate('Home', {
         avatar: response.data.payload.avatar
@@ -129,6 +129,27 @@ const tryLocalSignin = (dispatch) => async () => {
     }
   } else {
     navigate('loginFLow')
+  }
+}
+
+const signinWithGoogle = (dispatch) => async ({email, id, photoUrl}) => {
+  try {
+    const response = await elearningApi.post('/user/login-google-mobile', {
+      user: {email, id}
+    })
+    console.log('alo', response.data)
+    const {token} = response.data
+    await AsyncStorage.setItem('token', token)
+    dispatch({type: 'signin', payload: token})
+
+    navigate('Home', {
+      avatar: photoUrl
+    })
+  } catch (err) {
+    dispatch({
+      type: 'add_error',
+      payload: err.response.data.message
+    })
   }
 }
 
@@ -165,7 +186,8 @@ export const {Context, Provider} = createDataContext(
     clearMessage,
     tryLocalSignin,
     changePassword,
-    forgotPassword
+    forgotPassword,
+    signinWithGoogle
   },
   initialState
 )

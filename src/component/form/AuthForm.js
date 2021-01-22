@@ -94,16 +94,19 @@ const AuthForm = ({
         }}
       />
       {isSignupForm ? _renderFormRegister() : _renderFormLogin()}
-      <Text
-        style={{
-          color: screenProps.theme.colors.primary,
-          alignSelf: 'flex-end',
-          fontSize: screenProps.theme.font.size.large,
-          marginRight: screenProps.theme.spacing.gutterSize * 2
-        }}
-        onPress={toggleOverlay}>
-        Forgot Password
-      </Text>
+      {!isSignupForm ? (
+        <Text
+          style={{
+            color: screenProps.theme.colors.primary,
+            alignSelf: 'flex-end',
+            fontSize: screenProps.theme.font.size.large,
+            marginRight: screenProps.theme.spacing.gutterSize * 2
+          }}
+          onPress={toggleOverlay}>
+          Forgot Password
+        </Text>
+      ) : null}
+
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : message ? (
