@@ -1,16 +1,16 @@
 import React, {useContext, useEffect} from 'react'
 import {StyleSheet, Switch} from 'react-native'
 import styled from 'styled-components/native'
-import Container from '../component/common/Container'
 
 //Icon
 import {Ionicons} from '@expo/vector-icons'
 import {Avatar} from 'react-native-elements'
+import Container from '../component/common/Container'
+import Spacer from '../component/common/Spacer'
+import HeaderTitle from '../component/common/HeaderTitle'
+
 //Context
 import {Context as UserContext} from '../context/UserContext'
-
-import Spacer from '../component/common/Spacer'
-
 //Style
 
 const WrapperHome = styled.View`
@@ -40,9 +40,8 @@ const HomeScreen = ({screenProps, navigation}) => {
 
   return (
     <Container theme={screenProps.theme}>
-      <WrapperHome>
-        <Title>Chanh Test</Title>
-      </WrapperHome>
+      <HeaderTitle text='Home' screenProps={screenProps} />
+      <WrapperHome></WrapperHome>
     </Container>
   )
 }

@@ -8,6 +8,8 @@ import IconText from '../component/common/IconText'
 import Container from '../component/common/Container'
 
 const WrapperContent = styled.View`
+  flex: 1;
+  justify-content: center;
   margin: ${(props) => `0px ${props.theme.spacing.newGutterSize * 2}px`};
 `
 

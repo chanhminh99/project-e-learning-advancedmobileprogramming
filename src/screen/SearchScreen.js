@@ -1,11 +1,13 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 
-const SearchScreen = () => {
+import Container from '../component/common/Container'
+import HeaderTitle from '../component/common/HeaderTitle'
+const SearchScreen = ({screenProps}) => {
   return (
-    <View>
-      <Text>SearchScreen</Text>
-    </View>
+    <Container theme={screenProps.theme}>
+      <HeaderTitle text='Search' screenProps={screenProps} />
+    </Container>
   )
 }
 
@@ -15,8 +17,7 @@ SearchScreen.navigationOptions = ({screenProps}) => {
       backgroundColor: screenProps.theme.background,
       shadowColor: 'transparent'
     },
-    headerTintColor: 'transparent',
-    headerShown: false
+    headerTintColor: 'transparent'
   }
 }
 

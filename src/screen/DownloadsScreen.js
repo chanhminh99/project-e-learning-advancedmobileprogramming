@@ -1,11 +1,12 @@
 import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
 
-const DownloadsScreen = () => {
+import Container from '../component/common/Container'
+import HeaderTitle from '../component/common/HeaderTitle'
+const DownloadsScreen = ({screenProps}) => {
   return (
-    <View>
-      <Text>DownloadsScreen</Text>
-    </View>
+    <Container theme={screenProps.theme}>
+      <HeaderTitle text='Downloads' screenProps={screenProps} />
+    </Container>
   )
 }
 
@@ -15,11 +16,8 @@ DownloadsScreen.navigationOptions = ({screenProps}) => {
       backgroundColor: screenProps.theme.background,
       shadowColor: 'transparent'
     },
-    headerTintColor: 'transparent',
-    headerShown: false
+    headerTintColor: 'transparent'
   }
 }
-
-const styles = StyleSheet.create({})
 
 export default DownloadsScreen

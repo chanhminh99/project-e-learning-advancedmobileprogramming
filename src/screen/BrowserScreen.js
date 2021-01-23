@@ -1,11 +1,13 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 
-const BrowserScreen = () => {
+import Container from '../component/common/Container'
+import HeaderTitle from '../component/common/HeaderTitle'
+const BrowserScreen = ({screenProps}) => {
   return (
-    <View>
-      <Text>BrowserScreen</Text>
-    </View>
+    <Container theme={screenProps.theme}>
+      <HeaderTitle text='Browser' screenProps={screenProps} />
+    </Container>
   )
 }
 
@@ -15,8 +17,7 @@ BrowserScreen.navigationOptions = ({screenProps}) => {
       backgroundColor: screenProps.theme.background,
       shadowColor: 'transparent'
     },
-    headerTintColor: 'transparent',
-    headerShown: false
+    headerTintColor: 'transparent'
   }
 }
 
