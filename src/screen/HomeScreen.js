@@ -1,25 +1,23 @@
 import React, {useContext, useEffect} from 'react'
-import {StyleSheet, Switch} from 'react-native'
+import {StyleSheet, Dimensions} from 'react-native'
 import styled from 'styled-components/native'
 
 //Icon
 import {Ionicons} from '@expo/vector-icons'
-import {Avatar} from 'react-native-elements'
+import {Avatar, Tile} from 'react-native-elements'
+
 import Container from '../component/common/Container'
 import Spacer from '../component/common/Spacer'
 import HeaderTitle from '../component/common/HeaderTitle'
 
 //Context
 import {Context as UserContext} from '../context/UserContext'
-//Style
 
+const {width, height} = Dimensions.get('screen')
+
+//Style
 const WrapperHome = styled.View`
   align-items: center;
-`
-
-const Title = styled.Text`
-  font-size: ${({theme}) => theme.font.size.largest}px;
-  color: ${(props) => props.theme.text};
 `
 
 const HomeScreen = ({screenProps, navigation}) => {
@@ -40,8 +38,30 @@ const HomeScreen = ({screenProps, navigation}) => {
 
   return (
     <Container theme={screenProps.theme}>
-      <HeaderTitle text='Home' screenProps={screenProps} />
-      <WrapperHome></WrapperHome>
+      <HeaderTitle
+        text='Home'
+        fontWeightText='bold'
+        screenProps={screenProps}
+      />
+      <WrapperHome>
+        <Tile
+          height={width * 0.6}
+          imageSrc={require('../../assets/images/cover.png')}
+          title='Welcome to PluralRez!'
+          titleStyle={{
+            fontSize: screenProps.theme.font.size.default * 2.5,
+            fontWeight: '600',
+            alignSelf: 'flex-start'
+          }}
+          featured
+          caption='Get in-demand skills to impress anyone'
+          captionStyle={{
+            color: screenProps.theme.colors.customLightGrey,
+            alignSelf: 'flex-start',
+            fontSize: screenProps.theme.font.size.default * 1.2
+          }}
+        />
+      </WrapperHome>
     </Container>
   )
 }

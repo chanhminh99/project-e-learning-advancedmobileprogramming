@@ -5,7 +5,11 @@ import HeaderTitle from '../component/common/HeaderTitle'
 const DownloadsScreen = ({screenProps}) => {
   return (
     <Container theme={screenProps.theme}>
-      <HeaderTitle text='Downloads' screenProps={screenProps} />
+      <HeaderTitle
+        text='Downloads'
+        fontWeightText='bold'
+        screenProps={screenProps}
+      />
     </Container>
   )
 }

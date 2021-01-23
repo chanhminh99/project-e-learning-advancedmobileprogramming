@@ -6,7 +6,11 @@ import HeaderTitle from '../component/common/HeaderTitle'
 const SearchScreen = ({screenProps}) => {
   return (
     <Container theme={screenProps.theme}>
-      <HeaderTitle text='Search' screenProps={screenProps} />
+      <HeaderTitle
+        text='Search'
+        fontWeightText='bold'
+        screenProps={screenProps}
+      />
     </Container>
   )
 }
