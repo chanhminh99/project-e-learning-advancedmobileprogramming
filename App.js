@@ -19,6 +19,7 @@ import {setNavigator} from './src/navigationRef'
 import {Provider as AuthProvider} from './src/context/AuthContext'
 import {Provider as UserProvider} from './src/context/UserContext'
 import {Provider as CategoryProvider} from './src/context/CategoryContext'
+import {Provider as CoursesProvider} from './src/context/CoursesContext'
 import ThemeManager from './src/themes'
 import {withTheme} from 'styled-components'
 
@@ -185,14 +186,16 @@ const AppWithTheme = withTheme(({theme}) => {
 
 export default () => {
   return (
-    <CategoryProvider>
-      <UserProvider>
-        <AuthProvider>
-          <ThemeManager>
-            <AppWithTheme />
-          </ThemeManager>
-        </AuthProvider>
-      </UserProvider>
-    </CategoryProvider>
+    <CoursesProvider>
+      <CategoryProvider>
+        <UserProvider>
+          <AuthProvider>
+            <ThemeManager>
+              <AppWithTheme />
+            </ThemeManager>
+          </AuthProvider>
+        </UserProvider>
+      </CategoryProvider>
+    </CoursesProvider>
   )
 }
