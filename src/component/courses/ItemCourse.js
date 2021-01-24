@@ -91,9 +91,9 @@ const ItemCourse = ({screenProps, item, onLikeCourse, category = false}) => {
               ? `${new Date(item['updatedAt']).toLocaleDateString('en-us', {
                   month: 'short'
                 })} ${new Date(item['updatedAt']).getFullYear()}`
-              : `${new Date(item['createdAt']).toLocaleDateString('en-us', {
+              : `${new Date(item['updatedAt']).toLocaleDateString('en-us', {
                   month: 'short'
-                })} ${new Date(item['createdAt']).getFullYear()}`}
+                })} ${new Date(item['updatedAt']).getFullYear()}`}
           </Card.FeaturedSubtitle>
         </RowWrapper>
         <RowWrapper>
