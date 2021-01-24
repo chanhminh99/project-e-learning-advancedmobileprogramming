@@ -12,13 +12,12 @@ import HeaderTitle from '../component/common/HeaderTitle'
 
 //Context
 import {Context as UserContext} from '../context/UserContext'
+import HeaderWithSeeAll from '../component/common/HeaderWithSeeAll'
 
 const {width, height} = Dimensions.get('screen')
 
 //Style
-const WrapperHome = styled.View`
-  align-items: center;
-`
+const WrapperContent = styled.View``
 
 const HomeScreen = ({screenProps, navigation}) => {
   const {state, getUserInfo} = useContext(UserContext)
@@ -43,7 +42,7 @@ const HomeScreen = ({screenProps, navigation}) => {
         fontWeightText='bold'
         screenProps={screenProps}
       />
-      <WrapperHome>
+      <WrapperContent>
         <Tile
           height={width * 0.6}
           imageSrc={require('../../assets/images/cover.png')}
@@ -61,7 +60,18 @@ const HomeScreen = ({screenProps, navigation}) => {
             fontSize: screenProps.theme.font.size.default * 1.2
           }}
         />
-      </WrapperHome>
+        <Spacer />
+        <HeaderWithSeeAll
+          textHeader='Khoá học của tôi'
+          screenProps={screenProps}
+          onPressSeeAll={() => {}}
+        />
+        <HeaderWithSeeAll
+          textHeader='Khoá học nổi bật'
+          screenProps={screenProps}
+          onPressSeeAll={() => {}}
+        />
+      </WrapperContent>
     </Container>
   )
 }
