@@ -14,24 +14,41 @@ import Spacer from '../component/common/Spacer'
 import HeaderWithSeeAll from '../component/common/HeaderWithSeeAll'
 import HeaderTitle from '../component/common/HeaderTitle'
 //Context
+import {Context as UserContext} from '../context/UserContext'
 import {Context as CategoryContext} from '../context/CategoryContext'
 
 const {width, height} = Dimensions.get('screen')
 
 const WrapperContent = styled.View``
 
-const BrowserScreen = ({screenProps}) => {
+const BrowserScreen = ({screenProps, navigation}) => {
   const {
     state: {list: listCategories},
     getAllCategory
   } = useContext(CategoryContext)
 
+  const {getUserInfo} = useContext(UserContext)
+
   useEffect(() => {
     getAllCategory()
+    getUserInfo()
+    const listener = navigation.addListener('didFocus', () => {
+      getAllCategory()
+      getUserInfo()
+    })
+
+    return () => {
+      listener.remove()
+    }
   }, [])
 
-  const partOfListCategories = listCategories.filter((value, idx) => {
-    return idx <= 4
+  let indexEven = []
+
+  const listCategoriesWithIndexEven = listCategories.filter((val, idx) => {
+    if (idx % 2 === 0) {
+      indexEven.push(idx)
+      return idx % 2 === 0
+    }
   })
 
   return (
@@ -56,7 +73,11 @@ const BrowserScreen = ({screenProps}) => {
                 paddingBottom: screenProps.theme.spacing.newGutterSize,
                 marginBottom: -screenProps.theme.spacing.newGutterSize
               }}
-              onPress={() => console.log('pressed')}
+              onPress={() =>
+                navigation.navigate('IndexCourse', {
+                  title: 'New'
+                })
+              }
             />
             <Spacer />
             <Tile
@@ -71,18 +92,23 @@ const BrowserScreen = ({screenProps}) => {
                 paddingBottom: screenProps.theme.spacing.newGutterSize,
                 marginBottom: -screenProps.theme.spacing.newGutterSize
               }}
+              onPress={() =>
+                navigation.navigate('IndexCourse', {
+                  title: 'Recommend For You'
+                })
+              }
             />
           </Spacer>
           <Spacer />
           <HeaderWithSeeAll
             textHeader='Categories'
             screenProps={screenProps}
-            onPressSeeAll={() => console.log('pressed')}
+            isDisabled
           />
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={partOfListCategories}
+            data={listCategoriesWithIndexEven}
             keyExtractor={(category) => category.id}
             renderItem={({item, index}) => {
               return (
@@ -90,11 +116,7 @@ const BrowserScreen = ({screenProps}) => {
                   <Tile
                     height={width * 0.22}
                     width={width * 0.5}
-                    imageSrc={
-                      index % 2 === 0
-                        ? require('../../assets/images/category1.jpg')
-                        : require('../../assets/images/category2.jpg')
-                    }
+                    imageSrc={require('../../assets/images/category1.jpg')}
                     title={item.name}
                     titleStyle={{
                       fontSize: screenProps.theme.font.size.default * 1.5,
@@ -104,8 +126,37 @@ const BrowserScreen = ({screenProps}) => {
                         -screenProps.theme.spacing.newGutterSize * 3,
                       height: width * 0.15
                     }}
-                    onPress={() => console.log('pressed')}
+                    onPress={() =>
+                      navigation.navigate('IndexCourse', {
+                        title: item.name,
+                        categoryId: item.id
+                      })
+                    }
                   />
+                  <Spacer />
+
+                  {listCategories[indexEven[index] + 1] ? (
+                    <Tile
+                      height={width * 0.22}
+                      width={width * 0.5}
+                      imageSrc={require('../../assets/images/category2.jpg')}
+                      title={listCategories[indexEven[index] + 1].name}
+                      titleStyle={{
+                        fontSize: screenProps.theme.font.size.default * 1.5,
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        marginBottom:
+                          -screenProps.theme.spacing.newGutterSize * 3,
+                        height: width * 0.15
+                      }}
+                      onPress={() =>
+                        navigation.navigate('IndexCourse', {
+                          title: listCategories[indexEven[index] + 1].name,
+                          categoryId: listCategories[indexEven[index] + 1].id
+                        })
+                      }
+                    />
+                  ) : null}
                 </Spacer>
               )
             }}

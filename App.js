@@ -31,11 +31,13 @@ import {Ionicons} from '@expo/vector-icons'
 import ModalScreen from './src/screen/ModalScreen'
 import ProfileScreen from './src/screen/ProfileScreen'
 import SettingScreen from './src/screen/SettingScreen'
+import IndexCourseScreen from './src/screen/IndexCourseScreen'
 //Flow
 const HomeFlow = createStackNavigator({
   Home: HomeScreen,
   Profile: ProfileScreen,
-  Setting: SettingScreen
+  Setting: SettingScreen,
+  IndexCourse: IndexCourseScreen
 })
 
 HomeFlow.navigationOptions = ({screenProps}) => {
@@ -83,7 +85,8 @@ DownloadsFlow.navigationOptions = ({screenProps}) => {
 }
 
 const BrowserFlow = createStackNavigator({
-  Browser: BrowserScreen
+  Browser: BrowserScreen,
+  IndexCourse: IndexCourseScreen
 })
 
 BrowserFlow.navigationOptions = ({screenProps}) => {
@@ -145,7 +148,7 @@ const Tabs = createBottomTabNavigator(
 )
 Tabs.navigationOptions = () => {
   return {
-    headerShown: false
+    headerShown: true
   }
 }
 

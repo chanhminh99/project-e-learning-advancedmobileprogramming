@@ -9,7 +9,12 @@ const HeaderWrapper = styled.View`
   justify-content: space-between;
 `
 
-const HeaderWithSeeAll = ({textHeader, screenProps, onPressSeeAll}) => {
+const HeaderWithSeeAll = ({
+  textHeader,
+  screenProps,
+  onPressSeeAll,
+  isDisabled = false
+}) => {
   return (
     <HeaderWrapper>
       <HeaderTitle
@@ -18,17 +23,19 @@ const HeaderWithSeeAll = ({textHeader, screenProps, onPressSeeAll}) => {
         fontWeightText='bold'
         fontSizeText={screenProps.theme.font.size.default * 1.5}
       />
-      <Text
-        style={{
-          color: screenProps.theme.colors.primary,
-          alignSelf: 'flex-end',
-          fontSize: screenProps.theme.font.size.large,
-          marginRight: screenProps.theme.spacing.gutterSize * 2,
-          lineHeight: screenProps.theme.font.size.small * 5
-        }}
-        onPress={onPressSeeAll}>
-        See all
-      </Text>
+      {!isDisabled ? (
+        <Text
+          style={{
+            color: screenProps.theme.colors.primary,
+            alignSelf: 'flex-end',
+            fontSize: screenProps.theme.font.size.large,
+            marginRight: screenProps.theme.spacing.gutterSize * 2,
+            lineHeight: screenProps.theme.font.size.small * 5
+          }}
+          onPress={onPressSeeAll}>
+          See all
+        </Text>
+      ) : null}
     </HeaderWrapper>
   )
 }

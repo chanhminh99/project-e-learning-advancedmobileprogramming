@@ -4,14 +4,15 @@ import {Card, AirbnbRating} from 'react-native-elements'
 import styled from 'styled-components/native'
 import {Feather} from '@expo/vector-icons'
 import {FontAwesome} from '@expo/vector-icons'
-const {width} = Dimensions.get('screen')
+import Spacer from '../common/Spacer'
+const {width, height} = Dimensions.get('screen')
 
 const WrapperContentCourses = styled.View`
   width: ${width * 0.7}px;
   max-height: ${width * 0.5}px;
   background-color: ${({theme}) => theme.background};
   flex: 1;
-  padding: ${({theme}) => theme.spacing.newGutterSize}px;
+  margin-left: ${({theme}) => theme.spacing.gutterSize * 1.5}px;
   border-bottom-left-radius: ${({theme}) => theme.spacing.gutterSize}px;
   border-bottom-right-radius: ${({theme}) => theme.spacing.gutterSize}px;
 `
@@ -27,7 +28,7 @@ const RatingWrapper = styled.View`
   flex-direction: row;
 `
 
-const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
+const ItemCourse = ({screenProps, item, onLikeCourse, category = false}) => {
   let averagePoint
 
   const presentationPoint = item.presentationPoint
@@ -45,30 +46,29 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
   return (
     <Card
       containerStyle={{
-        flex: 1,
-        margin: 0,
         padding: 0,
-        borderWidth: 0,
-        width: width * 0.7
+        margin: 0,
+        borderWidth: 0
       }}
       wrapperStyle={{
         backgroundColor: screenProps.theme.background,
-        flex: 1
+        flex: 1,
+        justifyContent: 'space-between',
+        flexDirection: 'row'
       }}>
       <Card.Image
         source={{uri: item.imageUrl}}
         containerStyle={{
-          maxHeight: width * 0.5,
-          width: width * 0.7,
-          borderTopRightRadius: 10,
-          borderTopLeftRadius: 10
+          maxHeight: width * 0.2,
+          width: width * 0.2,
+          borderRadius: 10
         }}></Card.Image>
       <WrapperContentCourses theme={screenProps.theme}>
         <Card.FeaturedTitle style={{color: screenProps.theme.text}}>
           {item.title}
         </Card.FeaturedTitle>
         <Card.FeaturedSubtitle style={{color: screenProps.theme.text}}>
-          {item['instructor.user.name']}
+          {category ? item['name'] : item['instructor.user.name']}
         </Card.FeaturedSubtitle>
         <RowWrapper>
           <RatingWrapper>
@@ -85,9 +85,13 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
           </RatingWrapper>
 
           <Card.FeaturedSubtitle style={{color: screenProps.theme.text}}>
-            {`${new Date(item['createdAt']).toLocaleDateString('en-us', {
-              month: 'short'
-            })} ${new Date(item['createdAt']).getFullYear()}`}
+            {category
+              ? `${new Date(item['updatedAt']).toLocaleDateString('en-us', {
+                  month: 'short'
+                })} ${new Date(item['updatedAt']).getFullYear()}`
+              : `${new Date(item['createdAt']).toLocaleDateString('en-us', {
+                  month: 'short'
+                })} ${new Date(item['createdAt']).getFullYear()}`}
           </Card.FeaturedSubtitle>
         </RowWrapper>
         <RowWrapper>
@@ -120,4 +124,4 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
   )
 }
 
-export default CardCourse
+export default ItemCourse
