@@ -55,9 +55,11 @@ const changePassword = (dispatch) => async ({
   try {
     const response = await elearningApi.post('/user/change-password', {
       id,
-      currentPassword,
-      newPassword
+      oldPass: currentPassword,
+      newPass: newPassword
     })
+
+    console.log(response.data)
 
     dispatch({
       type: 'change_pass',
