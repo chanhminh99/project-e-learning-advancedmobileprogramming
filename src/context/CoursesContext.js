@@ -5,6 +5,7 @@ import {navigate} from '../navigationRef'
 const initialState = {
   data: {
     newCourses: [],
+    favoriteCourses: [],
     ownCourses: [],
     topSaleCourses: [],
     topNewCourses: [],
@@ -18,6 +19,8 @@ const courseReducer = (state, action) => {
   switch (action.type) {
     case 'like_course':
       return {...state, userLike: !state.userLike}
+    case 'get_favorite_courses':
+      return {...state, data: {...state.data, favoriteCourses: action.payload}}
     case 'get_courses_with_category':
       return {
         ...state,
@@ -75,6 +78,34 @@ const getCoursesWithCategory = (dispatch) => async (id) => {
         })
         dispatch({
           type: 'get_courses_with_category',
+          payload: courses
+        })
+      })
+    }
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
+const getFavoriteCourses = (dispatch) => async () => {
+  try {
+    const response = await elearningApi.get('/user/get-favorite-courses')
+
+    if (response.data.message === 'OK') {
+      let courses = response.data.payload
+      Promise.all(
+        courses.map(async (course) => {
+          const isLike = await elearningApi.get(
+            `/user/get-course-like-status/${course.id}`
+          )
+          return isLike.data
+        })
+      ).then((rs) => {
+        rs.map((flag, idx) => {
+          courses[idx].likeStatus = flag.likeStatus
+        })
+        dispatch({
+          type: 'get_favorite_courses',
           payload: courses
         })
       })
@@ -208,6 +239,7 @@ export const {Context, Provider} = createDataContext(
   courseReducer,
   {
     getOwnCourses,
+    getFavoriteCourses,
     getTopSellerCourses,
     getTopNewCourses,
     getRecommendedCourses,

@@ -27,20 +27,29 @@ const RatingWrapper = styled.View`
   flex-direction: row;
 `
 
-const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
+const CardCourse = ({
+  screenProps,
+  item,
+  onLikeCourse = () => {},
+  isFavorite = false
+}) => {
   let averagePoint
 
-  const presentationPoint = item.presentationPoint
-    ? parseFloat(item.presentationPoint.toFixed(2))
-    : 5.0
+  if (!isFavorite) {
+    const presentationPoint = item.presentationPoint
+      ? parseFloat(item.presentationPoint.toFixed(2))
+      : 5.0
 
-  const contentPoint = item.contentPoint
-    ? parseFloat(item.contentPoint.toFixed(2))
-    : 5.0
-  const formalityPoint = item.formalityPoint
-    ? parseFloat(item.formalityPoint.toFixed(2))
-    : 5.0
-  averagePoint = (presentationPoint + contentPoint + formalityPoint) / 3
+    const contentPoint = item.contentPoint
+      ? parseFloat(item.contentPoint.toFixed(2))
+      : 5.0
+    const formalityPoint = item.formalityPoint
+      ? parseFloat(item.formalityPoint.toFixed(2))
+      : 5.0
+    averagePoint = (presentationPoint + contentPoint + formalityPoint) / 3
+  } else {
+    averagePoint = item.courseAveragePoint
+  }
 
   const courseId = item.id
 
@@ -58,7 +67,7 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
         flex: 1
       }}>
       <Card.Image
-        source={{uri: item.imageUrl}}
+        source={{uri: isFavorite ? item.courseImage : item.imageUrl}}
         containerStyle={{
           maxHeight: width * 0.5,
           width: width * 0.7,
@@ -67,10 +76,10 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
         }}></Card.Image>
       <WrapperContentCourses theme={screenProps.theme}>
         <Card.FeaturedTitle style={{color: screenProps.theme.text}}>
-          {item.title}
+          {isFavorite ? item.courseTitle : item.title}
         </Card.FeaturedTitle>
         <Card.FeaturedSubtitle style={{color: screenProps.theme.text}}>
-          {item['instructor.user.name']}
+          {isFavorite ? item.instructorName : item['instructor.user.name']}
         </Card.FeaturedSubtitle>
         <RowWrapper>
           <RatingWrapper>
@@ -80,21 +89,31 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
               size={screenProps.theme.font.size.largest}
               showRating={false}
             />
-            <Card.FeaturedSubtitle
-              style={{bottom: -5, color: screenProps.theme.text}}>
-              {`(${item.ratedNumber})`}
-            </Card.FeaturedSubtitle>
+            {isFavorite ? null : (
+              <Card.FeaturedSubtitle
+                style={{bottom: -5, color: screenProps.theme.text}}>
+                {`(${item.ratedNumber})`}
+              </Card.FeaturedSubtitle>
+            )}
           </RatingWrapper>
-
-          <Card.FeaturedSubtitle style={{color: screenProps.theme.text}}>
-            {`${new Date(item['createdAt']).toLocaleDateString('en-us', {
-              month: 'short'
-            })} ${new Date(item['createdAt']).getFullYear()}`}
-          </Card.FeaturedSubtitle>
+          {isFavorite ? null : (
+            <Card.FeaturedSubtitle style={{color: screenProps.theme.text}}>
+              {`${new Date(item['createdAt']).toLocaleDateString('en-us', {
+                month: 'short'
+              })} ${new Date(item['createdAt']).getFullYear()}`}
+            </Card.FeaturedSubtitle>
+          )}
         </RowWrapper>
         <RowWrapper>
           <Card.FeaturedTitle style={{color: screenProps.theme.text}}>
-            {item.price === 0
+            {isFavorite
+              ? item.coursePrice === 0
+                ? 'Free'
+                : new Intl.NumberFormat('vn-US', {
+                    style: 'currency',
+                    currency: 'VND'
+                  }).format(item.coursePrice)
+              : item.price === 0
               ? 'Free'
               : new Intl.NumberFormat('vn-US', {
                   style: 'currency',

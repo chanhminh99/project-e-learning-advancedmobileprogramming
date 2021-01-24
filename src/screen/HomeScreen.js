@@ -25,11 +25,12 @@ const HomeScreen = ({screenProps, navigation}) => {
   const {getUserInfo} = useContext(UserContext)
   const {
     state: {
-      data: {topSaleCourses, ownCourses},
+      data: {topSaleCourses, ownCourses, favoriteCourses},
       userLike
     },
     getTopSellerCourses,
     getOwnCourses,
+    getFavoriteCourses,
     likeCourse
   } = useContext(CoursesContext)
   // Hook Theme
@@ -59,6 +60,18 @@ const HomeScreen = ({screenProps, navigation}) => {
   }, [userLike])
 
   useEffect(() => {
+    getFavoriteCourses()
+
+    const listener = navigation.addListener('didFocus', () => {
+      getFavoriteCourses()
+    })
+
+    return () => {
+      listener.remove()
+    }
+  }, [userLike])
+
+  useEffect(() => {
     getTopSellerCourses()
 
     const listener = navigation.addListener('didFocus', () => {
@@ -72,6 +85,7 @@ const HomeScreen = ({screenProps, navigation}) => {
 
   const hasOwnCourses = ownCourses.length > 0
   const hasTopSaleCourses = topSaleCourses.length > 0
+  const hasFavoriteCourses = favoriteCourses.length > 0
 
   let filterOwnCourses
   if (hasOwnCourses) {
@@ -85,6 +99,11 @@ const HomeScreen = ({screenProps, navigation}) => {
     filterTopSaleCourses = topSaleCourses.filter((value, idx) => {
       return idx < 5
     })
+  }
+
+  let filterFavoriteCourses
+  if (hasFavoriteCourses) {
+    filterFavoriteCourses = favoriteCourses.filter((vallue, idx) => idx < 5)
   }
 
   return (
@@ -115,6 +134,36 @@ const HomeScreen = ({screenProps, navigation}) => {
           />
           <Spacer />
           <HeaderWithSeeAll
+            textHeader='Top Seller Courses'
+            screenProps={screenProps}
+            onPressSeeAll={() =>
+              navigation.navigate('IndexCourse', {
+                title: 'Top Seller'
+              })
+            }
+          />
+          {hasTopSaleCourses ? (
+            <FlatList
+              data={filterTopSaleCourses}
+              keyExtractor={(course) => course.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item}) => {
+                return (
+                  <Spacer>
+                    <CardCourse
+                      screenProps={screenProps}
+                      item={item}
+                      onLikeCourse={({courseId}) => likeCourse({courseId})}
+                    />
+                  </Spacer>
+                )
+              }}
+            />
+          ) : (
+            <NoData text='No Courses' screenProps={screenProps} />
+          )}
+          <HeaderWithSeeAll
             textHeader='My Courses'
             screenProps={screenProps}
             onPressSeeAll={() =>
@@ -144,19 +193,14 @@ const HomeScreen = ({screenProps, navigation}) => {
           ) : (
             <NoData text='No Courses' screenProps={screenProps} />
           )}
-
           <HeaderWithSeeAll
-            textHeader='Top Seller Courses'
+            textHeader='My Favorite Courses'
             screenProps={screenProps}
-            onPressSeeAll={() =>
-              navigation.navigate('IndexCourse', {
-                title: 'Top Seller'
-              })
-            }
+            isDisabled
           />
-          {hasTopSaleCourses ? (
+          {hasFavoriteCourses ? (
             <FlatList
-              data={filterTopSaleCourses}
+              data={filterFavoriteCourses}
               keyExtractor={(course) => course.id}
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -167,6 +211,7 @@ const HomeScreen = ({screenProps, navigation}) => {
                       screenProps={screenProps}
                       item={item}
                       onLikeCourse={({courseId}) => likeCourse({courseId})}
+                      isFavorite
                     />
                   </Spacer>
                 )
