@@ -14,7 +14,7 @@ import Spacer from '../component/common/Spacer'
 import HeaderWithSeeAll from '../component/common/HeaderWithSeeAll'
 import HeaderTitle from '../component/common/HeaderTitle'
 //Context
-import {Context as UserContext} from '../context/UserContext'
+
 import {Context as CategoryContext} from '../context/CategoryContext'
 
 const {width, height} = Dimensions.get('screen')
@@ -27,14 +27,10 @@ const BrowserScreen = ({screenProps, navigation}) => {
     getAllCategory
   } = useContext(CategoryContext)
 
-  const {getUserInfo} = useContext(UserContext)
-
   useEffect(() => {
     getAllCategory()
-    getUserInfo()
     const listener = navigation.addListener('didFocus', () => {
       getAllCategory()
-      getUserInfo()
     })
 
     return () => {

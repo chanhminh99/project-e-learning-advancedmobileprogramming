@@ -42,6 +42,8 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
     : 5.0
   averagePoint = (presentationPoint + contentPoint + formalityPoint) / 3
 
+  const courseId = item.id
+
   return (
     <Card
       containerStyle={{
@@ -104,14 +106,14 @@ const CardCourse = ({screenProps, item, onLikeCourse = () => {}}) => {
               name='heart'
               size={24}
               color={screenProps.theme.colors.customRed}
-              onPress={() => onLikeCourse(item.id)}
+              onPress={() => onLikeCourse({courseId})}
             />
           ) : (
             <Feather
               name='heart'
               size={24}
               color={screenProps.theme.colors.customRed}
-              onPress={() => onLikeCourse(item.id)}
+              onPress={() => onLikeCourse({courseId})}
             />
           )}
         </RowWrapper>

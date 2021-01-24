@@ -1,12 +1,17 @@
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 import {Context as CoursesContext} from '../context/CoursesContext'
 import {Context as UserContext} from '../context/UserContext'
 
 export default () => {
   const {
-    state: {data}
+    state: {data},
+    getUserInfo
   } = useContext(UserContext)
   const {getRecommendedCourses: getRecommended} = useContext(CoursesContext)
+
+  useEffect(() => {
+    getUserInfo()
+  }, [])
 
   const userID = data.id
 

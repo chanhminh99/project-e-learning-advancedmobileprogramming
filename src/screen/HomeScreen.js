@@ -25,7 +25,8 @@ const HomeScreen = ({screenProps, navigation}) => {
   const {getUserInfo} = useContext(UserContext)
   const {
     state: {
-      data: {topSaleCourses, ownCourses}
+      data: {topSaleCourses, ownCourses},
+      userLike
     },
     getTopSellerCourses,
     getOwnCourses,
@@ -55,7 +56,7 @@ const HomeScreen = ({screenProps, navigation}) => {
     return () => {
       listener.remove()
     }
-  }, [])
+  }, [userLike])
 
   useEffect(() => {
     getTopSellerCourses()
@@ -67,7 +68,7 @@ const HomeScreen = ({screenProps, navigation}) => {
     return () => {
       listener.remove()
     }
-  }, [])
+  }, [userLike])
 
   const hasOwnCourses = ownCourses.length > 0
   const hasTopSaleCourses = topSaleCourses.length > 0
@@ -134,7 +135,7 @@ const HomeScreen = ({screenProps, navigation}) => {
                     <CardCourse
                       screenProps={screenProps}
                       item={item}
-                      onLikeCourse={(courseId) => likeCourse({courseId})}
+                      onLikeCourse={({courseId}) => likeCourse({courseId})}
                     />
                   </Spacer>
                 )
@@ -165,7 +166,7 @@ const HomeScreen = ({screenProps, navigation}) => {
                     <CardCourse
                       screenProps={screenProps}
                       item={item}
-                      onLikeCourse={(courseId) => likeCourse({courseId})}
+                      onLikeCourse={({courseId}) => likeCourse({courseId})}
                     />
                   </Spacer>
                 )

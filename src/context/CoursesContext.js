@@ -10,30 +10,42 @@ const initialState = {
     topNewCourses: [],
     recommendedCourses: [],
     coursesWithCategory: []
-  }
+  },
+  userLike: false
 }
 
 const courseReducer = (state, action) => {
   switch (action.type) {
+    case 'like_course':
+      return {...state, userLike: !state.userLike}
     case 'get_courses_with_category':
-      return {data: {...state.data, coursesWithCategory: action.payload}}
+      return {
+        ...state,
+        data: {...state.data, coursesWithCategory: action.payload}
+      }
     case 'get_own_courses':
-      return {data: {...state.data, ownCourses: action.payload}}
+      return {...state, data: {...state.data, ownCourses: action.payload}}
     case 'get_recommend_courses':
-      return {data: {...state.data, recommendedCourses: action.payload}}
+      return {
+        ...state,
+        data: {...state.data, recommendedCourses: action.payload}
+      }
     case 'get_top_sale_courses':
-      return {data: {...state.data, topSaleCourses: action.payload}}
+      return {...state, data: {...state.data, topSaleCourses: action.payload}}
     case 'get_top_new_courses':
-      return {data: {...state.data, topNewCourses: action.payload}}
+      return {...state, data: {...state.data, topNewCourses: action.payload}}
     default:
       return state
   }
 }
 
-const likeCourse = (dispatch) => async (courseId) => {
+const likeCourse = (dispatch) => async ({courseId}) => {
+  console.log(courseId)
   try {
-    const response = await elearningApi.post('/user/like-course', {courseId})
-    console.log(response)
+    const response = await elearningApi.post('/user/like-course', {
+      courseId
+    })
+    dispatch({type: 'like_course'})
   } catch (err) {
     console.log(err.response.data)
   }

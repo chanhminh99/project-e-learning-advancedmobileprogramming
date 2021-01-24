@@ -11,7 +11,7 @@ import {Context as CoursesContext} from '../context/CoursesContext'
 import useUserCourse from '../hooks/useUserCourse'
 const IndexCourseScreen = ({screenProps, navigation}) => {
   const {
-    state: {data},
+    state: {data, userLike},
     getOwnCourses,
     getTopSellerCourses,
     getTopNewCourses,
@@ -42,7 +42,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
       return () => {
         listener.remove()
       }
-    }, [])
+    }, [userLike])
     hasCoursesWithCategory = data.coursesWithCategory.length > 0
     if (hasCoursesWithCategory) {
       list = data.coursesWithCategory || []
@@ -60,7 +60,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
         return () => {
           listener.remove()
         }
-      }, [])
+      }, [userLike])
       hasOwnCourses = data.ownCourses.length > 0
       if (hasOwnCourses && title === 'My Courses') {
         list = data.ownCourses || []
@@ -76,7 +76,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
         return () => {
           listener.remove()
         }
-      }, [])
+      }, [userLike])
       hasTopSaleCourses = data.topSaleCourses.length > 0
       if (hasTopSaleCourses && title === 'Top Seller') {
         list = data.topSaleCourses || []
@@ -91,7 +91,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
         return () => {
           listener.remove()
         }
-      }, [])
+      }, [userLike])
       hasTopNewCourses = data.topNewCourses.length > 0
       if (hasTopNewCourses && title === 'New') {
         list = data.topNewCourses || []
@@ -107,7 +107,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
         return () => {
           listener.remove()
         }
-      }, [])
+      }, [userLike])
       hasRecommendCourses = data.recommendedCourses.length > 0
       if (hasRecommendCourses && title === 'Recommend For You') {
         list = data.recommendedCourses || []
@@ -132,7 +132,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
                     category
                     screenProps={screenProps}
                     item={item}
-                    onLikeCourse={(courseId) => likeCourse({courseId})}
+                    onLikeCourse={({courseId}) => likeCourse({courseId})}
                   />
                 </Spacer>
               )
@@ -148,7 +148,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
                   <ItemCourse
                     screenProps={screenProps}
                     item={item}
-                    onLikeCourse={(courseId) => likeCourse({courseId})}
+                    onLikeCourse={({courseId}) => likeCourse({courseId})}
                   />
                 </Spacer>
               )
