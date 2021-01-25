@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: spacing.gutterSize / 2,
     textAlign: 'center',
-    marginBottom: spacing.doubleGutterSize
+    marginBottom: spacing.gutterSize
   }
 })
 

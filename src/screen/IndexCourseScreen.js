@@ -19,7 +19,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
     likeCourse
   } = useContext(CoursesContext)
 
-  const [getRecommendedCourses] = useUserCourse()
+  const [getRecommendedCourses] = useUserCourse({})
 
   const title = navigation.getParam('title')
   const categoryId = navigation.getParam('categoryId')

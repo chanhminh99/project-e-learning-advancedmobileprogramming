@@ -2,22 +2,25 @@ import {useContext, useEffect} from 'react'
 import {Context as CoursesContext} from '../context/CoursesContext'
 import {Context as UserContext} from '../context/UserContext'
 
-export default () => {
+export default ({courseId = null}) => {
   const {
-    state: {data},
-    getUserInfo
+    state: {data}
   } = useContext(UserContext)
-  const {getRecommendedCourses: getRecommended} = useContext(CoursesContext)
+  const {
+    getRecommendedCourses: getRecommended,
+    getLatestCourseDetails
+  } = useContext(CoursesContext)
 
-  useEffect(() => {
-    getUserInfo()
-  }, [])
-
+  console.log('courseId', courseId)
   const userID = data.id
 
   const getRecommendedCourses = async () => {
     await getRecommended({id: userID, limit: 25, offset: 1})
   }
 
-  return [getRecommendedCourses]
+  const getLatestCourseDetailsByUser = async () => {
+    await getLatestCourseDetails({courseId, userID})
+  }
+
+  return [getRecommendedCourses, getLatestCourseDetailsByUser]
 }

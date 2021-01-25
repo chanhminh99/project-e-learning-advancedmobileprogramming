@@ -10,15 +10,24 @@ const initialState = {
     topSaleCourses: [],
     topNewCourses: [],
     recommendedCourses: [],
-    coursesWithCategory: []
+    coursesWithCategory: [],
+    latestCourseDetails: {}
   },
-  userLike: false
+  userLike: false,
+  userBuyCourse: false
 }
 
 const courseReducer = (state, action) => {
   switch (action.type) {
+    case 'user_buy_course':
+      return {...state, userBuyCourse: !state.userBuyCourse}
     case 'like_course':
       return {...state, userLike: !state.userLike}
+    case 'get_latest_course_details':
+      return {
+        ...state,
+        data: {...state.data, latestCourseDetails: action.payload}
+      }
     case 'get_favorite_courses':
       return {...state, data: {...state.data, favoriteCourses: action.payload}}
     case 'get_courses_with_category':
@@ -43,12 +52,58 @@ const courseReducer = (state, action) => {
 }
 
 const likeCourse = (dispatch) => async ({courseId}) => {
-  console.log(courseId)
   try {
     const response = await elearningApi.post('/user/like-course', {
       courseId
     })
+    console.log('like')
     dispatch({type: 'like_course'})
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
+const checkOutCourse = (dispatch) => async ({courseId}) => {
+  try {
+    const response = await elearningApi.post('/payment/get-free-courses', {
+      courseId
+    })
+    if (response.data.message === 'OK') {
+      dispatch({type: 'user_buy_course'})
+    }
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
+const getLatestCourseDetails = (dispatch) => async ({courseId, userId}) => {
+  try {
+    const response = await elearningApi.get(
+      `/course/get-course-detail/${courseId}/${userId}`
+    )
+
+    if (response.data.message === 'OK') {
+      const course = response.data.payload
+      const isLike = await elearningApi.get(
+        `/user/get-course-like-status/${course.id}`
+      )
+      course.likeStatus = isLike.data.likeStatus
+
+      const ownCourse = await elearningApi.get(
+        `/user/check-own-course/${course.id}`
+      )
+
+      let isOwn = false
+      ownCourse.data.message === 'OK' && ownCourse.data.payload.isUserOwnCourse
+        ? (isOwn = true)
+        : (isOwn = false)
+      course.isOwn = isOwn
+
+      dispatch({
+        type: 'get_latest_course_details',
+        payload: course
+      })
+    }
   } catch (err) {
     console.log(err.response.data)
   }
@@ -121,20 +176,24 @@ const getOwnCourses = (dispatch) => async () => {
 
     if (response.data.message === 'OK') {
       let courses = response.data.payload
+
       Promise.all(
         courses.map(async (course) => {
           const isLike = await elearningApi.get(
             `/user/get-course-like-status/${course.id}`
           )
-          return isLike.data
+          const responseFull = await elearningApi.get(
+            `course/get-course-info?id=${course.id}`
+          )
+
+          const courseFullInfo = responseFull.data.payload
+          courseFullInfo.likeStatus = isLike.data.likeStatus
+          return courseFullInfo
         })
-      ).then((rs) => {
-        rs.map((flag, idx) => {
-          courses[idx].likeStatus = flag.likeStatus
-        })
+      ).then((coursesFull) => {
         dispatch({
           type: 'get_own_courses',
-          payload: courses
+          payload: coursesFull
         })
       })
     }
@@ -244,7 +303,9 @@ export const {Context, Provider} = createDataContext(
     getTopNewCourses,
     getRecommendedCourses,
     getCoursesWithCategory,
-    likeCourse
+    getLatestCourseDetails,
+    likeCourse,
+    checkOutCourse
   },
   initialState
 )

@@ -33,12 +33,14 @@ import ModalScreen from './src/screen/ModalScreen'
 import ProfileScreen from './src/screen/ProfileScreen'
 import SettingScreen from './src/screen/SettingScreen'
 import IndexCourseScreen from './src/screen/IndexCourseScreen'
+import CourseDetailScreen from './src/screen/CourseDetailScreen'
 //Flow
 const HomeFlow = createStackNavigator({
   Home: HomeScreen,
   Profile: ProfileScreen,
   Setting: SettingScreen,
-  IndexCourse: IndexCourseScreen
+  IndexCourse: IndexCourseScreen,
+  DetailsCourse: CourseDetailScreen
 })
 
 HomeFlow.navigationOptions = ({screenProps}) => {
@@ -87,7 +89,8 @@ DownloadsFlow.navigationOptions = ({screenProps}) => {
 
 const BrowserFlow = createStackNavigator({
   Browser: BrowserScreen,
-  IndexCourse: IndexCourseScreen
+  IndexCourse: IndexCourseScreen,
+  DetailsCourse: CourseDetailScreen
 })
 
 BrowserFlow.navigationOptions = ({screenProps}) => {
@@ -109,7 +112,8 @@ BrowserFlow.navigationOptions = ({screenProps}) => {
 }
 
 const SearchFlow = createStackNavigator({
-  Search: SearchScreen
+  Search: SearchScreen,
+  DetailsCourse: CourseDetailScreen
 })
 
 SearchFlow.navigationOptions = ({screenProps}) => {
