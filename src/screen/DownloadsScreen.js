@@ -2,6 +2,7 @@ import React from 'react'
 
 import Container from '../component/common/Container'
 import HeaderTitle from '../component/common/HeaderTitle'
+import NoData from '../component/courses/NoData'
 const DownloadsScreen = ({screenProps}) => {
   return (
     <Container theme={screenProps.theme}>
@@ -10,6 +11,7 @@ const DownloadsScreen = ({screenProps}) => {
         fontWeightText='bold'
         screenProps={screenProps}
       />
+      <NoData text='No Courses Downloaded' screenProps={screenProps} />
     </Container>
   )
 }

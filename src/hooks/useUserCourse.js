@@ -11,7 +11,6 @@ export default ({courseId = null}) => {
     getLatestCourseDetails
   } = useContext(CoursesContext)
 
-  console.log('courseId', courseId)
   const userID = data.id
 
   const getRecommendedCourses = async () => {

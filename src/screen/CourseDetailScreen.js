@@ -28,6 +28,8 @@ import {
 import {Context as CoursesContext} from '../context/CoursesContext'
 //Hooks
 import useUserCourse from '../hooks/useUserCourse'
+import {TouchableOpacity} from 'react-native-gesture-handler'
+import NoData from '../component/courses/NoData'
 
 //Style
 
@@ -55,6 +57,7 @@ const WrapperItemInfoStyled = styled.View`
 
 const WrapperItemInfo = styled.View`
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   max-height: ${({theme}) => theme.font.size.largest * 1.5}px;
@@ -117,10 +120,6 @@ const CourseDetailScreen = ({screenProps, navigation}) => {
     }
   }, [userBuyCourse, userLike])
 
-  Object.keys(latestCourseDetails).map((item) => console.log(item))
-
-  console.log(latestCourseDetails.section)
-
   return (
     <Container theme={screenProps.theme}>
       {latestCourseDetails && (
@@ -178,7 +177,10 @@ const CourseDetailScreen = ({screenProps, navigation}) => {
                         lineHeight: screenProps.theme.font.size.large,
                         padding: screenProps.theme.spacing.newGutterSize / 2
                       }}>
-                      {latestCourseDetails.averagePoint > 5
+                      {isNaN(latestCourseDetails.averagePoint) ||
+                      latestCourseDetails.averagePoint > 5 ||
+                      latestCourseDetails.averagePoint === 'NaN' ||
+                      typeof latestCourseDetails.averagePoint !== 'number'
                         ? 5
                         : latestCourseDetails.averagePoint}
                     </Text>
@@ -396,13 +398,83 @@ const CourseDetailScreen = ({screenProps, navigation}) => {
                         )
                       }}
                     />
-                  ) : null}
+                  ) : (
+                    <Text
+                      style={{
+                        color: screenProps.theme.text
+                      }}>
+                      No
+                    </Text>
+                  )}
                 </View>
                 <HeaderWithSeeAll
                   textHeader='Curriculum'
                   screenProps={screenProps}
                   isDisabled
                 />
+                <View
+                  style={{
+                    flex: 1,
+                    width: width * 0.96,
+                    borderColor: screenProps.theme.text,
+                    borderRadius: screenProps.theme.spacing.gutterSize,
+                    borderWidth: 2,
+                    padding: screenProps.theme.spacing.gutterSize,
+                    margin: 0
+                  }}>
+                  {latestCourseDetails.section ? (
+                    <FlatList
+                      data={latestCourseDetails.section}
+                      keyExtractor={(item, idx) => item.id}
+                      renderItem={({item: section}) => {
+                        return (
+                          <>
+                            <Text
+                              style={{
+                                color: screenProps.theme.text,
+                                fontWeight: 'bold',
+                                fontSize:
+                                  screenProps.theme.font.size.largest * 1.2
+                              }}>{`${section.name}`}</Text>
+
+                            {section.lesson ? (
+                              <Spacer>
+                                <FlatList
+                                  data={section.lesson}
+                                  keyExtractor={(item, idx) => item.id}
+                                  renderItem={({item: lesson, index}) => {
+                                    return (
+                                      <TouchableOpacity>
+                                        <Text
+                                          style={{
+                                            color: screenProps.theme.text,
+                                            fontWeight: 'bold',
+                                            fontSize:
+                                              screenProps.theme.font.size
+                                                .largest * 0.8
+                                          }}>
+                                          {`${index + 1} - ${lesson.name} - ${
+                                            lesson.hours > 1
+                                              ? `${lesson.hours.toFixed(
+                                                  2
+                                                )} hours`
+                                              : `${(lesson.hours * 60).toFixed(
+                                                  2
+                                                )} mins`
+                                          }`}
+                                        </Text>
+                                      </TouchableOpacity>
+                                    )
+                                  }}
+                                />
+                              </Spacer>
+                            ) : null}
+                          </>
+                        )
+                      }}
+                    />
+                  ) : null}
+                </View>
                 <HeaderWithSeeAll
                   textHeader='Created by'
                   screenProps={screenProps}
@@ -424,7 +496,11 @@ const CourseDetailScreen = ({screenProps, navigation}) => {
                         <Image
                           style={{borderRadius: 50, width: 50, height: 50}}
                           resizeMode='cover'
-                          source={{uri: latestCourseDetails.instructor.avatar}}
+                          source={{
+                            uri:
+                              latestCourseDetails.instructor.avatar ||
+                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs-bsLd6mUlSjhP9DNiVnSa4QfLCa4u9kKbg&usqp=CAU'
+                          }}
                         />
                         <View>
                           <Text
@@ -453,11 +529,118 @@ const CourseDetailScreen = ({screenProps, navigation}) => {
                   screenProps={screenProps}
                   isDisabled
                 />
+                <View style={{flex: 1}}>
+                  {latestCourseDetails.ratings ? (
+                    <FlatList
+                      data={latestCourseDetails.ratings.ratingList}
+                      keyExtractor={(item) => item.id}
+                      renderItem={({item}) => {
+                        return (
+                          <Card
+                            containerStyle={{
+                              backgroundColor: screenProps.theme.background,
+                              borderWidth: 0
+                            }}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                flex: 1,
+                                alignItems: 'center'
+                              }}>
+                              <Image
+                                style={{
+                                  borderRadius: 50,
+                                  width: 50,
+                                  height: 50
+                                }}
+                                resizeMode='cover'
+                                source={{
+                                  uri:
+                                    item.user.avatar ||
+                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs-bsLd6mUlSjhP9DNiVnSa4QfLCa4u9kKbg&usqp=CAU'
+                                }}
+                              />
+                              <View>
+                                <Text
+                                  style={{
+                                    color: screenProps.theme.text,
+                                    fontSize:
+                                      screenProps.theme.font.size.largest,
+                                    marginLeft:
+                                      screenProps.theme.spacing.gutterSize
+                                  }}>
+                                  {item.user.name}
+                                </Text>
+
+                                <View
+                                  style={{
+                                    margin:
+                                      screenProps.theme.spacing.newGutterSize,
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    flexWrap: 'wrap'
+                                  }}>
+                                  <Text
+                                    style={{
+                                      color: screenProps.theme.text,
+                                      fontSize:
+                                        screenProps.theme.font.size.medium,
+                                      marginLeft:
+                                        screenProps.theme.spacing.gutterSize
+                                    }}>
+                                    {`Comment: ${item.content}`}
+                                  </Text>
+                                  <Spacer />
+                                  <Text
+                                    style={{
+                                      color: screenProps.theme.text,
+                                      fontSize:
+                                        screenProps.theme.font.size.medium,
+                                      marginLeft:
+                                        screenProps.theme.spacing.gutterSize
+                                    }}>
+                                    Rating:
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      color: screenProps.theme.text,
+                                      fontSize:
+                                        screenProps.theme.font.size.medium,
+                                      letterSpacing: 0,
+                                      fontWeight: '400',
+                                      lineHeight:
+                                        screenProps.theme.font.size.medium,
+                                      padding:
+                                        screenProps.theme.spacing
+                                          .newGutterSize / 2
+                                    }}>
+                                    {isNaN(item.averagePoint) ||
+                                    item.averagePoint > 5 ||
+                                    item.averagePoint === 'NaN' ||
+                                    typeof item.averagePoint !== 'number'
+                                      ? 5
+                                      : item.averagePoint}
+                                  </Text>
+                                  <FontAwesome
+                                    name='star'
+                                    size={screenProps.theme.font.size.medium}
+                                    color={screenProps.theme.text}
+                                  />
+                                </View>
+                              </View>
+                            </View>
+                          </Card>
+                        )
+                      }}
+                    />
+                  ) : null}
+                </View>
                 <HeaderWithSeeAll
                   textHeader='Course Related'
                   screenProps={screenProps}
                   isDisabled
                 />
+                <NoData text='No Course' screenProps={screenProps} />
               </WrapperMainInfo>
             </WrapperContentStyled>
           </ScrollView>
