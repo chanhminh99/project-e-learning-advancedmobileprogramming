@@ -150,6 +150,11 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
                     screenProps={screenProps}
                     item={item}
                     onLikeCourse={({courseId}) => likeCourse({courseId})}
+                    onPressCourse={() =>
+                      navigation.navigate('DetailsCourse', {
+                        courseId: item.id
+                      })
+                    }
                   />
                 </Spacer>
               )
@@ -166,6 +171,11 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
                     screenProps={screenProps}
                     item={item}
                     onLikeCourse={({courseId}) => likeCourse({courseId})}
+                    onPressCourse={() =>
+                      navigation.navigate('DetailsCourse', {
+                        courseId: item.id
+                      })
+                    }
                   />
                 </Spacer>
               )

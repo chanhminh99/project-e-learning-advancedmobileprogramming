@@ -185,7 +185,6 @@ const getFavoriteCourses = (dispatch) => async () => {
 
     if (response.data.message === 'OK') {
       let courses = response.data.payload
-      console.log(courses)
       Promise.all(
         courses.map(async (course) => {
           const isLike = await elearningApi.get(

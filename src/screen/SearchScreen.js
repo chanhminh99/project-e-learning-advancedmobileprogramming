@@ -54,8 +54,6 @@ const SearchScreen = ({screenProps, navigation}) => {
     }
   }, [])
 
-  console.log(history)
-
   const component1 = () => (
     <Text
       style={{
