@@ -16,10 +16,11 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
     getTopSellerCourses,
     getTopNewCourses,
     getCoursesWithCategory,
+    getFavoriteCoursesDetails,
     likeCourse
   } = useContext(CoursesContext)
 
-  const [getRecommendedCourses] = useUserCourse()
+  const [getRecommendedCourses] = useUserCourse({})
 
   const title = navigation.getParam('title')
   const categoryId = navigation.getParam('categoryId')
@@ -30,6 +31,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
   let hasRecommendCourses
   let hasOwnCourses
   let hasCoursesWithCategory
+  let hasFavoriteCourses
 
   if (categoryId) {
     useEffect(() => {
@@ -96,6 +98,21 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
       if (hasTopNewCourses && title === 'New') {
         list = data.topNewCourses || []
       }
+    case 'My Favorite Courses':
+      useEffect(() => {
+        getFavoriteCoursesDetails()
+        const listener = navigation.addListener('didFocus', () => {
+          getFavoriteCoursesDetails()
+        })
+
+        return () => {
+          listener.remove()
+        }
+      }, [userLike])
+      hasFavoriteCourses = data.favoriteCoursesIndex.length > 0
+      if (hasFavoriteCourses && title === 'My Favorite Courses') {
+        list = data.favoriteCoursesIndex || []
+      }
     case 'Recommend For You':
       useEffect(() => {
         getRecommendedCourses()
@@ -133,6 +150,11 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
                     screenProps={screenProps}
                     item={item}
                     onLikeCourse={({courseId}) => likeCourse({courseId})}
+                    onPressCourse={() =>
+                      navigation.navigate('DetailsCourse', {
+                        courseId: item.id
+                      })
+                    }
                   />
                 </Spacer>
               )
@@ -149,6 +171,11 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
                     screenProps={screenProps}
                     item={item}
                     onLikeCourse={({courseId}) => likeCourse({courseId})}
+                    onPressCourse={() =>
+                      navigation.navigate('DetailsCourse', {
+                        courseId: item.id
+                      })
+                    }
                   />
                 </Spacer>
               )

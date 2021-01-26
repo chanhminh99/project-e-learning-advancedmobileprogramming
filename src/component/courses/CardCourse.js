@@ -31,6 +31,7 @@ const CardCourse = ({
   screenProps,
   item,
   onLikeCourse = () => {},
+  onPressCourse = () => {},
   isFavorite = false
 }) => {
   let averagePoint
@@ -73,7 +74,9 @@ const CardCourse = ({
           width: width * 0.7,
           borderTopRightRadius: 10,
           borderTopLeftRadius: 10
-        }}></Card.Image>
+        }}
+        onPress={onPressCourse}
+      />
       <WrapperContentCourses theme={screenProps.theme}>
         <Card.FeaturedTitle style={{color: screenProps.theme.text}}>
           {isFavorite ? item.courseTitle : item.title}

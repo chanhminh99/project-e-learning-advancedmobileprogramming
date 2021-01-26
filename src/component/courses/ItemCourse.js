@@ -28,7 +28,13 @@ const RatingWrapper = styled.View`
   flex-direction: row;
 `
 
-const ItemCourse = ({screenProps, item, onLikeCourse, category = false}) => {
+const ItemCourse = ({
+  screenProps,
+  item,
+  onLikeCourse,
+  category = false,
+  onPressCourse = () => {}
+}) => {
   let averagePoint
 
   const presentationPoint = item.presentationPoint
@@ -64,7 +70,8 @@ const ItemCourse = ({screenProps, item, onLikeCourse, category = false}) => {
           maxHeight: width * 0.2,
           width: width * 0.2,
           borderRadius: 10
-        }}></Card.Image>
+        }}
+        onPress={onPressCourse}></Card.Image>
       <WrapperContentCourses theme={screenProps.theme}>
         <Card.FeaturedTitle style={{color: screenProps.theme.text}}>
           {item.title}

@@ -155,6 +155,11 @@ const HomeScreen = ({screenProps, navigation}) => {
                       screenProps={screenProps}
                       item={item}
                       onLikeCourse={({courseId}) => likeCourse({courseId})}
+                      onPressCourse={() =>
+                        navigation.navigate('DetailsCourse', {
+                          courseId: item.id
+                        })
+                      }
                     />
                   </Spacer>
                 )
@@ -185,6 +190,11 @@ const HomeScreen = ({screenProps, navigation}) => {
                       screenProps={screenProps}
                       item={item}
                       onLikeCourse={({courseId}) => likeCourse({courseId})}
+                      onPressCourse={() =>
+                        navigation.navigate('DetailsCourse', {
+                          courseId: item.id
+                        })
+                      }
                     />
                   </Spacer>
                 )
@@ -196,7 +206,11 @@ const HomeScreen = ({screenProps, navigation}) => {
           <HeaderWithSeeAll
             textHeader='My Favorite Courses'
             screenProps={screenProps}
-            isDisabled
+            onPressSeeAll={() =>
+              navigation.navigate('IndexCourse', {
+                title: 'My Favorite Courses'
+              })
+            }
           />
           {hasFavoriteCourses ? (
             <FlatList
@@ -212,6 +226,11 @@ const HomeScreen = ({screenProps, navigation}) => {
                       item={item}
                       onLikeCourse={({courseId}) => likeCourse({courseId})}
                       isFavorite
+                      onPressCourse={() =>
+                        navigation.navigate('DetailsCourse', {
+                          courseId: item.id
+                        })
+                      }
                     />
                   </Spacer>
                 )
