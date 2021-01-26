@@ -289,9 +289,9 @@ const CourseDetailScreen = ({screenProps, navigation}) => {
                       screenProps.theme.spacing.gutterSize * 1.2,
                     width: width * 0.4
                   }}
-                  title={latestCourseDetails.isOwn ? 'Watch Now' : 'Buy Now'}
+                  title={latestCourseDetails.isOwn ? 'Download' : 'Buy Now'}
                   titleStyle={{
-                    fontSize: screenProps.theme.font.size.largest * 1.25,
+                    fontSize: screenProps.theme.font.size.largest * 1.15,
                     color: screenProps.theme.text,
                     fontWeight: 'bold'
                   }}
