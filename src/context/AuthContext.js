@@ -83,23 +83,11 @@ const signup = (dispatch) => async ({username, email, password, phone}) => {
       phone
     })
     if (response.data.message === 'OK') {
-      try {
-        await elearningApi.post('/user/send-activate-email', {
-          email
-        })
-
-        dispatch({
-          type: 'signup',
-          payload:
-            'Sign up successfully. Please go to email and active your account'
-        })
-      } catch (e) {
-        console.log(e.message)
-        dispatch({
-          type: 'add_error',
-          payload: 'Something went wrong with sign up'
-        })
-      }
+      dispatch({
+        type: 'signup',
+        payload:
+          'Sign up successfully. Please go to email and active your account'
+      })
     } else {
       dispatch({
         type: 'add_error',
