@@ -103,10 +103,12 @@ const SearchScreen = ({screenProps, navigation}) => {
     filterCourses = courses.data.filter((value, idx) => idx < 3)
   }
 
-  const shoudRenderHistorySearch =
+  const flagRender =
     !hasCoursesOnSearch && !hasInstructorsOnSearch && !keyword && index === 0
 
-  console.log(shoudRenderHistorySearch)
+  const [shouldRenderHistory, setShouldRenderHistory] = useState(flagRender)
+
+  console.log(shouldRenderHistory)
 
   return (
     <Container theme={screenProps.theme}>
@@ -116,6 +118,7 @@ const SearchScreen = ({screenProps, navigation}) => {
             clearData()
             setKeyword('')
             setIndex(0)
+            setShouldRenderHistory(true)
           }}
         />
         <ScrollView>
@@ -146,7 +149,7 @@ const SearchScreen = ({screenProps, navigation}) => {
               fontSize: screenProps.theme.font.size.largest * 1.15
             }}
           />
-          {shoudRenderHistorySearch ? (
+          {shouldRenderHistory ? (
             <View>
               <HeaderWithSeeAll
                 textHeader='History'
@@ -162,14 +165,15 @@ const SearchScreen = ({screenProps, navigation}) => {
                     return (
                       <Spacer>
                         <TouchableOpacity
-                          onPress={() =>
+                          onPress={() => {
                             search({
                               keyword: item.content,
                               token,
                               limit: 10,
                               offset: 1
                             })
-                          }>
+                            setShouldRenderHistory(false)
+                          }}>
                           <View
                             style={{
                               justifyContent: 'space-between',
@@ -234,6 +238,11 @@ const SearchScreen = ({screenProps, navigation}) => {
                               onLikeCourse={({courseId}) =>
                                 likeCourse({courseId})
                               }
+                              onPressCourse={() =>
+                                navigation.navigate('DetailsCourse', {
+                                  courseId: item.id
+                                })
+                              }
                             />
                           </Spacer>
                         )
@@ -258,9 +267,6 @@ const SearchScreen = ({screenProps, navigation}) => {
                             <ItemInstructor
                               screenProps={screenProps}
                               item={item}
-                              onLikeCourse={({courseId}) =>
-                                likeCourse({courseId})
-                              }
                             />
                           </Spacer>
                         )
@@ -285,6 +291,11 @@ const SearchScreen = ({screenProps, navigation}) => {
                               item={item}
                               onLikeCourse={({courseId}) =>
                                 likeCourse({courseId})
+                              }
+                              onPressCourse={() =>
+                                navigation.navigate('DetailsCourse', {
+                                  courseId: item.id
+                                })
                               }
                             />
                           </Spacer>

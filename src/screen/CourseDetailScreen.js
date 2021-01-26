@@ -192,8 +192,10 @@ const CourseDetailScreen = ({screenProps, navigation}) => {
                         padding: screenProps.theme.spacing.newGutterSize / 2
                       }}>
                       {latestCourseDetails.totalHours > 1
-                        ? `${latestCourseDetails.totalHours} hours`
-                        : `${latestCourseDetails.totalHours * 60} minutes`}
+                        ? `${latestCourseDetails.totalHours.toFixed(2)} hours`
+                        : `${(latestCourseDetails.totalHours * 60).toFixed(
+                            2
+                          )} minutes`}
                     </Text>
                   </WrapperItemInfo>
                   <WrapperItemInfo>

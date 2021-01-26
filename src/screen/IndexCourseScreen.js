@@ -16,6 +16,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
     getTopSellerCourses,
     getTopNewCourses,
     getCoursesWithCategory,
+    getFavoriteCoursesDetails,
     likeCourse
   } = useContext(CoursesContext)
 
@@ -30,6 +31,7 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
   let hasRecommendCourses
   let hasOwnCourses
   let hasCoursesWithCategory
+  let hasFavoriteCourses
 
   if (categoryId) {
     useEffect(() => {
@@ -95,6 +97,21 @@ const IndexCourseScreen = ({screenProps, navigation}) => {
       hasTopNewCourses = data.topNewCourses.length > 0
       if (hasTopNewCourses && title === 'New') {
         list = data.topNewCourses || []
+      }
+    case 'My Favorite Courses':
+      useEffect(() => {
+        getFavoriteCoursesDetails()
+        const listener = navigation.addListener('didFocus', () => {
+          getFavoriteCoursesDetails()
+        })
+
+        return () => {
+          listener.remove()
+        }
+      }, [userLike])
+      hasFavoriteCourses = data.favoriteCoursesIndex.length > 0
+      if (hasFavoriteCourses && title === 'My Favorite Courses') {
+        list = data.favoriteCoursesIndex || []
       }
     case 'Recommend For You':
       useEffect(() => {

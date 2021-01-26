@@ -6,6 +6,7 @@ const initialState = {
   data: {
     newCourses: [],
     favoriteCourses: [],
+    favoriteCoursesIndex: [],
     ownCourses: [],
     topSaleCourses: [],
     topNewCourses: [],
@@ -27,6 +28,11 @@ const courseReducer = (state, action) => {
       return {
         ...state,
         data: {...state.data, latestCourseDetails: action.payload}
+      }
+    case 'get_favorite_courses_index':
+      return {
+        ...state,
+        data: {...state.data, favoriteCoursesIndex: action.payload}
       }
     case 'get_favorite_courses':
       return {...state, data: {...state.data, favoriteCourses: action.payload}}
@@ -142,12 +148,44 @@ const getCoursesWithCategory = (dispatch) => async (id) => {
   }
 }
 
+const getFavoriteCoursesDetails = (dispatch) => async () => {
+  try {
+    const response = await elearningApi.get('/user/get-favorite-courses')
+
+    if (response.data.message === 'OK') {
+      const courses = response.data.payload
+      Promise.all(
+        courses.map(async (course) => {
+          const isLike = await elearningApi.get(
+            `/user/get-course-like-status/${course.id}`
+          )
+          const responseFull = await elearningApi.get(
+            `course/get-course-info?id=${course.id}`
+          )
+
+          const courseFullInfo = responseFull.data.payload
+          courseFullInfo.likeStatus = isLike.data.likeStatus
+          return courseFullInfo
+        })
+      ).then((coursesFull) => {
+        dispatch({
+          type: 'get_favorite_courses_index',
+          payload: coursesFull
+        })
+      })
+    }
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
 const getFavoriteCourses = (dispatch) => async () => {
   try {
     const response = await elearningApi.get('/user/get-favorite-courses')
 
     if (response.data.message === 'OK') {
       let courses = response.data.payload
+      console.log(courses)
       Promise.all(
         courses.map(async (course) => {
           const isLike = await elearningApi.get(
@@ -299,6 +337,7 @@ export const {Context, Provider} = createDataContext(
   {
     getOwnCourses,
     getFavoriteCourses,
+    getFavoriteCoursesDetails,
     getTopSellerCourses,
     getTopNewCourses,
     getRecommendedCourses,
